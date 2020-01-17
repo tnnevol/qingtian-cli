@@ -9,7 +9,8 @@ const commandModule: CommandModule<{}, { verbose: string }> = {
             alias: 'p',
             type: 'string',
             description: 'test verbose',
-            demandOption: true
+            demandOption: true,
+            choices: ['t', 'y', 'u']
         }
     },
     handler(args) {
