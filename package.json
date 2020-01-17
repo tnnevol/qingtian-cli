@@ -54,7 +54,7 @@
         ]
     },
     "bin": {
-        "qt": "./bin/cli.js"
+        "qt": "./bin/qt"
     },
     "name": "qt-cli",
     "description": "didi",
