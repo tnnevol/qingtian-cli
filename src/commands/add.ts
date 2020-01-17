@@ -1,6 +1,6 @@
 import { CommandModule } from 'yargs';
 
-const commandModule: CommandModule = {
+const commandModule: CommandModule<{}, { verbose: string }> = {
     command: 'add',
     describe: 'test add',
     aliases: 'a',
@@ -13,7 +13,7 @@ const commandModule: CommandModule = {
         }
     },
     handler(args) {
-        console.log(args);
+        console.log(args.verbose);
     }
 };
 
