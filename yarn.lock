@@ -73,6 +73,11 @@
   resolved "http://192.168.0.9/@types%2fevents/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
   integrity sha1-KGLz9Yqaf3w+eNefEw3U1xwlwqc=
 
+"@types/figlet@^1.2.0":
+  version "1.2.0"
+  resolved "http://192.168.0.9/@types%2ffiglet/-/figlet-1.2.0.tgz#2dab76da069dc8ce5dcab461f7f2788317fb01a8"
+  integrity sha1-Lat22gadyM5dyrRh9/J4gxf7Aag=
+
 "@types/fs-extra@^8.0.1":
   version "8.0.1"
   resolved "http://192.168.0.9/@types%2ffs-extra/-/fs-extra-8.0.1.tgz#a2378d6e7e8afea1564e44aafa2e207dadf77686"
@@ -2330,6 +2335,11 @@ figgy-pudding@^3.5.1:
   version "3.5.1"
   resolved "http://192.168.0.9/figgy-pudding/-/figgy-pudding-3.5.1.tgz#862470112901c727a0e495a80744bd5baa1d6790"
   integrity sha1-hiRwESkBxyeg5JWoB0S9W6odZ5A=
+
+figlet@^1.2.4:
+  version "1.2.4"
+  resolved "http://192.168.0.9/figlet/-/figlet-1.2.4.tgz#2d2f48b61a77418ba6cbd9db2e25da27efee16d0"
+  integrity sha1-LS9Ithp3QYumy9nbLiXaJ+/uFtA=
 
 figures@^1.7.0:
   version "1.7.0"
