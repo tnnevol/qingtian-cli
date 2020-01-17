@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "esnext",
+        "lib": ["es2015", "es2016", "es2017"],
+        "baseUrl": ".",
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "esModuleInterop": true,
+        "strictNullChecks": true,
+        "importHelpers": true,
+        "strict": true,
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "outDir": "lib"
+    },
+    "include": ["src/**/*"]
+}
