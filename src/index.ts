@@ -1,8 +1,13 @@
 import yargs from 'yargs';
-import figlet from 'figlet';
 import chalk from 'chalk';
+import Config from 'webpack-chain';
 
-console.log(figlet.textSync('hello world !', '3D-ASCII'));
+import { getProjectConfig } from './utils/configUtil';
+// import figlet from 'figlet';
+// console.log(figlet.textSync('hello world !', '3D-ASCII'));
+
+global.webpackConfig = new Config();
+global.projectConfig = getProjectConfig();
 
 yargs
     .scriptName('qt')
