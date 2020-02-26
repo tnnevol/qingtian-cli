@@ -20,7 +20,10 @@ export function applyTsConfig(tsConfig: Config, options: ConfigOptions, isMainPr
         .options({
             transpileOnly: true,
             context: resolve('./'),
-            getCustomTransformers: path.resolve(__dirname, '..', 'transformers.js')
+            getCustomTransformers: path.resolve(__dirname, '..', 'transformers.js'),
+            compilerOptions: {
+                sourceMap: !isProd
+            }
         });
 
     tsConfig

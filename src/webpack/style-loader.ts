@@ -55,7 +55,8 @@ export default function(options: ConfigOptions) {
         .use('css-loader')
         .loader(require.resolve('css-loader'))
         .options({
-            modules: true
+            modules: true,
+            sourceMap: !isProd
         })
         .end()
         .when(isProd, config =>
