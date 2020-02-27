@@ -33,6 +33,7 @@ export default function(options: ConfigOptions) {
             .disableHostCheck(true)
             .headers({ 'Access-Control-Allow-Origin': '*' })
             .clientLogLevel('none')
+            .historyApiFallback(true)
             .when(isElectron, devServer =>
                 devServer.before(() => {
                     const webpackConfig = getWebpackConfigOfMainProcess(options);
