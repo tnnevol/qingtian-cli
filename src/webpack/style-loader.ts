@@ -55,7 +55,11 @@ export default function(options: ConfigOptions) {
         .use('css-loader')
         .loader(require.resolve('css-loader'))
         .options({
-            modules: true,
+            modules: {
+                mode: 'local',
+                localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                context: resolve('./src')
+            },
             sourceMap: !isProd
         })
         .end()

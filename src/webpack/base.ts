@@ -19,7 +19,7 @@ export function applyBaseConfig(baseConfig: Config, options: ConfigOptions, isMa
         .when(
             isProd,
             config => config.devtool(false),
-            config => config.devtool('cheap-source-map')
+            config => config.devtool('cheap-module-eval-source-map')
         )
         .when(isMainProcess, config =>
             config

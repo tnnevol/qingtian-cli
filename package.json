@@ -83,7 +83,8 @@
     "preferGlobal": true,
     "scripts": {
         "build": "rimraf lib && tsc && node script/copy.js",
-        "watch": "tsc -w"
+        "watch": "tsc -w",
+        "format": "prettier --config ./.prettierrc.js --write ./src/**/*.{ts,js}"
     },
     "repository": {
         "type": "git",
