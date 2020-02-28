@@ -1,4 +1,5 @@
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
 export default function(options: ConfigOptions) {
     const { webpackConfig } = global;
@@ -35,6 +36,13 @@ export default function(options: ConfigOptions) {
                 cssProcessorPluginOptions: {
                     preset: ['default', { discardComments: { removeAll: true } }]
                 }
+            }
+        ])
+        .end()
+        .minimizer('min-js')
+        .use(UglifyJsPlugin, [
+            {
+                sourceMap: false
             }
         ]);
 }
