@@ -7,9 +7,7 @@ export default function() {
 
     webpackConfig.when(isElectron, config =>
         config
-            .entry('renderer')
-            .add(resolve(entryPath))
-            .end()
+            .when(!projectConfig.pages, c => c.entry('renderer').add(resolve(entryPath)))
             .target('electron-renderer')
             .node.set('__dirname', false)
             .set('__filename', false)

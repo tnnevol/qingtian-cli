@@ -11,6 +11,15 @@ declare global {
                     mainEntry?: string;
                 };
                 chainWebpack?: (config: Config) => void;
+                pages: Record<
+                    string,
+                    {
+                        entry?: string;
+                        template?: string;
+                        filename?: string;
+                        title?: string;
+                    }
+                >;
             };
         }
         interface ProcessEnv {
