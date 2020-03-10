@@ -1,5 +1,5 @@
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
 
 export default function(options: ConfigOptions) {
     const { webpackConfig } = global;
@@ -30,6 +30,7 @@ export default function(options: ConfigOptions) {
                 }
             }
         })
+        .minimize(true)
         .minimizer('min-css')
         .use(OptimizeCSSAssetsPlugin, [
             {
@@ -40,9 +41,17 @@ export default function(options: ConfigOptions) {
         ])
         .end()
         .minimizer('min-js')
-        .use(UglifyJsPlugin, [
+        .use(TerserPlugin, [
             {
-                sourceMap: false
+                parallel: true,
+                terserOptions: {
+                    output: {
+                        comments: false
+                    },
+                    compress: {
+                        drop_console: true
+                    }
+                }
             }
         ]);
 }
