@@ -11,6 +11,6 @@ export default function(options: ConfigOptions) {
         .set('@/components', resolve(basePath + 'components'))
         .set('@/hooks', resolve(basePath + 'hooks'))
         .set('@/utils', resolve(basePath + 'utils'))
-        .set('@/store', resolve(basePath + 'store'));
-    // .when(!isProd, config => config.set('react-dom', '@hot-loader/react-dom'));
+        .set('@/store', resolve(basePath + 'store'))
+        .when(!isProd, config => config.set('react-dom', '@hot-loader/react-dom'));
 }

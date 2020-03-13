@@ -40,7 +40,8 @@ export default function() {
     webpackConfig.plugin('html').use(HtmlWebpackPlugin, [
         {
             inject: 'body',
-            template: resolve('public/index.html')
+            template: resolve('public/index.html'),
+            favicon: resolve('public/favicon.ico')
         }
     ]);
 }

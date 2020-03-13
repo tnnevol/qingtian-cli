@@ -20,6 +20,7 @@ declare global {
                         title?: string;
                     }
                 >;
+                sassResources?: string[];
             };
         }
         interface ProcessEnv {
