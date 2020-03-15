@@ -8,10 +8,12 @@ const commandModule: CommandModule<{}, { inspect: boolean }> = {
     builder: {
         analyz: {
             type: 'boolean',
-            description: '是否开启包体分析'
+            alias: 'a',
+            description: '开启包体分析'
         },
         inspect: {
             type: 'boolean',
+            alias: 'i',
             description: '查看webpack配置',
             default: false
         }

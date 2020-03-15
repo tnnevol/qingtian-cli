@@ -15,6 +15,7 @@ const spinner = ora('正在下载项目模版...');
 
 const commandModule: CommandModule<{}, { type: string; 'skip-install': boolean; 'skip-git': boolean }> = {
     command: 'new',
+    aliases: 'n',
     describe: `项目创建: ${global.cliName} new <projectName> --type [projectType]`,
     builder: {
         type: {

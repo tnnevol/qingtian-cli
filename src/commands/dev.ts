@@ -10,7 +10,7 @@ const commandModule: CommandModule<{}, { inspect: boolean }> = {
     builder: {
         inspect: {
             type: 'boolean',
-            alias: 'd',
+            alias: 'i',
             description: '查看webpack配置',
             default: false
         }
