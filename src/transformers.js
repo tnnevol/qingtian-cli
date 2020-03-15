@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const transformerFactory = require('ts-import-plugin');
 
 module.exports = () => ({

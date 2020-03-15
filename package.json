@@ -88,7 +88,7 @@
     "main": "lib/index.js",
     "preferGlobal": true,
     "scripts": {
-        "build": "rimraf lib && tsc && node script/copy.js",
+        "build": "rimraf lib && tsc",
         "watch": "tsc -w",
         "format": "prettier --config ./.prettierrc.js --write ./src/**/*.{ts,js}"
     },

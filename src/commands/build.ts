@@ -2,7 +2,7 @@ import { CommandModule } from 'yargs';
 
 import { getWebpackConfig, getWebpackConfigOfMainProcess, build, printWebpackConfig } from '../utils/configUtil';
 
-const commandModule: CommandModule<{}, { debug: boolean }> = {
+const commandModule: CommandModule<{}, { inspect: boolean }> = {
     command: 'build',
     describe: '项目打包',
     builder: {
@@ -10,9 +10,8 @@ const commandModule: CommandModule<{}, { debug: boolean }> = {
             type: 'boolean',
             description: '是否开启包体分析'
         },
-        debug: {
+        inspect: {
             type: 'boolean',
-            alias: 'd',
             description: '查看webpack配置',
             default: false
         }
@@ -24,7 +23,7 @@ const commandModule: CommandModule<{}, { debug: boolean }> = {
         const webpackConfig = await getWebpackConfig({ isProd: true, needAnalyz: !!args.analyz });
 
         if (!isElectron) {
-            if (args.debug) return printWebpackConfig(webpackConfig.toString());
+            if (args.inspect) return printWebpackConfig(webpackConfig.toString());
             return build(webpackConfig.toConfig());
         }
 
@@ -33,7 +32,7 @@ const commandModule: CommandModule<{}, { debug: boolean }> = {
             needAnalyz: false
         });
 
-        if (args.debug) {
+        if (args.inspect) {
             printWebpackConfig(webpackConfig.toString() + '\n');
             printWebpackConfig(mainProcessConfig.toString());
             return;

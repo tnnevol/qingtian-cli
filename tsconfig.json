@@ -13,7 +13,8 @@
         "strict": true,
         "moduleResolution": "node",
         "skipLibCheck": true,
-        "outDir": "lib"
+        "outDir": "lib",
+        "allowJs": true
     },
     "include": ["src/**/*", "typings"]
 }

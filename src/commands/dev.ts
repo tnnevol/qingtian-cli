@@ -4,11 +4,11 @@ import webpack from 'webpack';
 
 import { getWebpackConfig, printWebpackConfig, getWebpackConfigOfMainProcess } from '../utils/configUtil';
 
-const commandModule: CommandModule<{}, { debug: boolean }> = {
+const commandModule: CommandModule<{}, { inspect: boolean }> = {
     command: 'dev',
     describe: '开发构建',
     builder: {
-        debug: {
+        inspect: {
             type: 'boolean',
             alias: 'd',
             description: '查看webpack配置',
@@ -21,7 +21,7 @@ const commandModule: CommandModule<{}, { debug: boolean }> = {
         const isElectron = !!global.projectConfig.electron;
         const webpackConfig = await getWebpackConfig({ isProd: false, needAnalyz: false });
 
-        if (args.debug) {
+        if (args.inspect) {
             printWebpackConfig(webpackConfig.toString() + '\n');
             if (isElectron) {
                 printWebpackConfig(getWebpackConfigOfMainProcess({ isProd: false, needAnalyz: false }).toString());
