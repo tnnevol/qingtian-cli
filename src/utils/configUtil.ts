@@ -1,11 +1,11 @@
 import fs from 'fs-extra';
 import path from 'path';
-import prettier from 'prettier';
 import Config from 'webpack-chain';
 import webpack from 'webpack';
-import chalk from 'chalk';
+import prettier from 'prettier';
 
 import { resolve } from './pathUtil';
+import log from './logUtil';
 import { applyBaseConfig } from '../webpack/base';
 import { applytsCheckerConfig } from '../webpack/ts-checker';
 import { applyTsConfig } from '../webpack/ts-loader';
@@ -19,21 +19,15 @@ const prettyConfig: prettier.Options = {
     endOfLine: 'lf'
 };
 
-export function getProjectConfig() {
-    const configPath = resolve('qt.config.js');
-    if (!fs.existsSync(configPath)) return {};
-    return require(configPath);
+export function printWebpackConfig(content: string) {
+    const result = prettier.format(content, prettyConfig);
+    console.log(result);
 }
 
-export function previewWebpackConfig(configStr: string, isMainProcess = false) {
-    const result = prettier.format(`module.exports = ${configStr}`, prettyConfig);
-    const name = isMainProcess ? 'main-process-preview' : 'preview';
-
-    try {
-        fs.writeFileSync(path.join(__dirname, `../../${name}.js`), result);
-    } catch (error) {
-        console.error(error);
-    }
+export function getProjectConfig() {
+    const configPath = resolve(`${global.cliName}.config.js`);
+    if (!fs.existsSync(configPath)) return {};
+    return require(configPath);
 }
 
 export async function getWebpackConfig(options: ConfigOptions) {
@@ -50,10 +44,6 @@ export async function getWebpackConfig(options: ConfigOptions) {
         projectConfig.chainWebpack(webpackConfig);
     }
 
-    if (options.needCheckConfig) {
-        previewWebpackConfig(webpackConfig.toString());
-    }
-
     return webpackConfig;
 }
 
@@ -63,11 +53,7 @@ export function getWebpackConfigOfMainProcess(options: ConfigOptions) {
 
     configs.forEach(mergeConfig => mergeConfig(webpackConfig, options, true));
 
-    if (options.needCheckConfig) {
-        previewWebpackConfig(webpackConfig.toString(), true);
-    }
-
-    return webpackConfig.toConfig();
+    return webpackConfig;
 }
 
 export function build(config: webpack.Configuration, callback?: () => void) {
@@ -85,11 +71,11 @@ export function build(config: webpack.Configuration, callback?: () => void) {
         );
 
         if (stats.hasErrors()) {
-            console.log(chalk.red('😢 😢 😢 打包失败\n'));
+            log.error('打包失败 😢\n');
             process.exit(1);
         }
 
-        console.log(chalk.green('😇 打包成功\n'));
+        log.success('打包成功 😇\n');
         callback && callback();
     });
 }

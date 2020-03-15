@@ -4,6 +4,7 @@ import Config from 'webpack-chain';
 declare global {
     namespace NodeJS {
         interface Global {
+            cliName: string;
             webpackConfig: Config;
             projectConfig: {
                 electron?: {
@@ -31,6 +32,5 @@ declare global {
     interface ConfigOptions {
         isProd: boolean;
         needAnalyz: boolean;
-        needCheckConfig: boolean;
     }
 }
