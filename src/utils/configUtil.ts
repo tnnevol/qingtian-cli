@@ -15,7 +15,7 @@ const prettyConfig: prettier.Options = {
     tabWidth: 4,
     singleQuote: true,
     semi: true,
-    parser: 'babel',
+    parser: 'json',
     endOfLine: 'lf'
 };
 

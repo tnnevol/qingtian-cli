@@ -1258,7 +1258,7 @@ chalk@2.4.2, chalk@^2.0.0, chalk@^2.1.0, chalk@^2.3.0, chalk@^2.4.1, chalk@^2.4.
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chalk@^1.0.0, chalk@^1.1.3:
+chalk@^1.0.0, chalk@^1.1.1, chalk@^1.1.3:
   version "1.1.3"
   resolved "https://registry.npm.taobao.org/chalk/download/chalk-1.1.3.tgz?cache=0&sync_timestamp=1581846316501&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fchalk%2Fdownload%2Fchalk-1.1.3.tgz#a8115c55e4a702fe4d150abd3872822a7e09fc98"
   integrity sha1-qBFcVeSnAv5NFQq9OHKCKn4J/Jg=
@@ -2780,7 +2780,7 @@ figgy-pudding@^3.5.1:
   resolved "https://registry.npm.taobao.org/figgy-pudding/download/figgy-pudding-3.5.1.tgz#862470112901c727a0e495a80744bd5baa1d6790"
   integrity sha1-hiRwESkBxyeg5JWoB0S9W6odZ5A=
 
-figlet@^1.2.4:
+figlet@^1.1.1, figlet@^1.2.4:
   version "1.3.0"
   resolved "https://registry.npm.taobao.org/figlet/download/figlet-1.3.0.tgz?cache=0&sync_timestamp=1582472854946&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ffiglet%2Fdownload%2Ffiglet-1.3.0.tgz#c49e3d92907ba13bebadc7124f76ba71f1f32ef0"
   integrity sha1-xJ49kpB7oTvrrccST3a6cfHzLvA=
@@ -5259,6 +5259,11 @@ parent-module@^1.0.0:
   integrity sha1-aR0nCeeMefrjoVZiJFLQB2LKqqI=
   dependencies:
     callsites "^3.0.0"
+
+parent-require@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npm.taobao.org/parent-require/download/parent-require-1.0.0.tgz#746a167638083a860b0eef6732cb27ed46c32977"
+  integrity sha1-dGoWdjgIOoYLDu9nMssn7UbDKXc=
 
 parse-asn1@^5.0.0:
   version "5.1.5"
@@ -7982,6 +7987,15 @@ yaml@^1.7.2:
   integrity sha1-8mqr9zhZCrYe+spQI1jkjcnzSLI=
   dependencies:
     "@babel/runtime" "^7.6.3"
+
+yargonaut@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.npm.taobao.org/yargonaut/download/yargonaut-1.1.4.tgz#c64f56432c7465271221f53f5cc517890c3d6e0c"
+  integrity sha1-xk9WQyx0ZScSIfU/XMUXiQw9bgw=
+  dependencies:
+    chalk "^1.1.1"
+    figlet "^1.1.1"
+    parent-require "^1.0.0"
 
 yargs-parser@^11.1.1:
   version "11.1.1"

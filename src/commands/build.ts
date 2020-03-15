@@ -4,7 +4,7 @@ import { getWebpackConfig, getWebpackConfigOfMainProcess, build, printWebpackCon
 
 const commandModule: CommandModule<{}, { debug: boolean }> = {
     command: 'build',
-    describe: '打包项目',
+    describe: '项目打包',
     builder: {
         analyz: {
             type: 'boolean',

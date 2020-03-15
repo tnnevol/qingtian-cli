@@ -2,15 +2,21 @@ import yargs from 'yargs';
 import chalk from 'chalk';
 import Config from 'webpack-chain';
 import logSymbols from 'log-symbols';
+import figlet from 'figlet';
 
 import { getProjectConfig } from './utils/configUtil';
-// import figlet from 'figlet';
-// console.log(figlet.textSync('hello world !', '3D-ASCII'));
-const packageJson = require('../package.json');
 
-global.cliName = Object.keys(packageJson.bin)[0];
+global.cliName = Object.keys(require('../package.json').bin)[0];
 global.webpackConfig = new Config();
 global.projectConfig = getProjectConfig();
+
+console.log(
+    chalk.green(
+        figlet.textSync(`${global.cliName}-cli`, {
+            font: 'ANSI Shadow'
+        })
+    )
+);
 
 yargs
     .scriptName(global.cliName)

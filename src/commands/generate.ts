@@ -2,7 +2,7 @@ import { CommandModule } from 'yargs';
 
 const commandModule: CommandModule = {
     command: 'generate',
-    describe: '生成代码文件',
+    describe: '代码生成',
     aliases: 'g',
     builder: {
         path: {
