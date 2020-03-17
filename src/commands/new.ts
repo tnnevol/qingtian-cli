@@ -9,42 +9,45 @@ import { resolve } from '../utils/pathUtil';
 const download = require('download-git-repo');
 const downloadAddressMap: Record<string, string> = {
     web: 'github:xieqingtian/web-boilerplate',
-    electron: ''
+    electron: 'github:xieqingtian/electron-boilerplate'
 };
-const spinner = ora('正在下载项目模版...');
+const spinner = ora('正在下载项目模版...\n');
 
-const commandModule: CommandModule<{}, { type: string; 'skip-install': boolean; 'skip-git': boolean }> = {
-    command: 'new',
-    aliases: 'n',
+const commandModule: CommandModule<{}, { name: string; type: string; 'skip-install': boolean; 'skip-git': boolean }> = {
+    command: 'new <name>',
+    aliases: 'n <name>',
     describe: '项目创建',
-    builder: {
-        type: {
-            type: 'string',
-            alias: 't',
-            description: '项目类型',
-            choices: Object.keys(downloadAddressMap),
-            default: 'web'
-        },
-        'skip-install': {
-            type: 'boolean',
-            alias: 'si',
-            description: '是否跳过安装依赖包',
-            default: false
-        },
-        'skip-git': {
-            type: 'boolean',
-            alias: 'sg',
-            description: '是否跳过初始化git仓库',
-            default: false
-        }
+    builder: yargs => {
+        return yargs
+            .positional('name', {
+                demandOption: true,
+                description: '项目名称',
+                type: 'string'
+            })
+            .option('type', {
+                type: 'string',
+                alias: 't',
+                description: '项目类型',
+                choices: Object.keys(downloadAddressMap),
+                default: 'web',
+                demandOption: false
+            })
+            .option('skip-install', {
+                type: 'boolean',
+                alias: 'si',
+                description: '是否跳过安装依赖包',
+                default: false
+            })
+            .option('skip-git', {
+                type: 'boolean',
+                alias: 'sg',
+                description: '是否跳过初始化git仓库',
+                default: false
+            });
     },
     handler: args => {
-        if (args._.length !== 2) {
-            return log.error('项目名称格式错误', true);
-        }
-
         const projectType = args.type;
-        const projectName = args._.pop() as string;
+        const projectName = args.name;
         const projectPath = resolve(projectName);
 
         if (fs.existsSync(projectPath)) {
@@ -52,7 +55,7 @@ const commandModule: CommandModule<{}, { type: string; 'skip-install': boolean; 
         }
 
         spinner.start();
-        download(downloadAddressMap[projectType], projectPath, (err: any) => {
+        download(downloadAddressMap[projectType], projectPath, (err: Error) => {
             spinner.stop();
             if (err) {
                 console.log(err);
