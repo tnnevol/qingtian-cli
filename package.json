@@ -81,7 +81,7 @@
     "bin": {
         "qt": "./bin/cli.js"
     },
-    "name": "qt-cli",
+    "name": "qingtian-cli",
     "description": "一个专注于 react + typescript + electron 开发的工作流",
     "version": "0.0.1",
     "main": "lib/index.js",

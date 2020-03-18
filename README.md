@@ -5,13 +5,13 @@
 # Install
 
 ```
-yarn add global qt-cli
+yarn add global qingtian-cli
 ```
 
 or
 
 ```
-npm install qt-cli -g
+npm install qingtian-cli -g
 ```
 
 # Contains
