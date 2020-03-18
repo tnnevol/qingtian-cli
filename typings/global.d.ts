@@ -19,9 +19,14 @@ declare global {
                         template?: string;
                         filename?: string;
                         title?: string;
+                        favicon?: string;
                     }
                 >;
                 sassResources?: string[];
+                template?: string;
+                filename?: string;
+                title?: string;
+                favicon?: string;
             };
         }
         interface ProcessEnv {

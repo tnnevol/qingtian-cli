@@ -1,6 +1,7 @@
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import { DefinePlugin } from 'webpack';
 import Config from 'webpack-chain';
+import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 
 import { resolve } from '../utils/pathUtil';
 
@@ -41,6 +42,9 @@ export function applyBaseConfig(baseConfig: Config, options: ConfigOptions, isMa
                 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
             }
         ])
+        .end()
+        .plugin('caseSensitivePaths-plugin')
+        .use(CaseSensitivePathsPlugin)
         .end()
         .when(needClean, config => config.plugin('clean-webpack-plugin').use(CleanWebpackPlugin));
 }

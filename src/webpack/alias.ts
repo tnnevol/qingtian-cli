@@ -1,10 +1,9 @@
-import { resolve } from '../utils/pathUtil';
+import { resolve, getBasePath } from '../utils/pathUtil';
 
 export default function(options: ConfigOptions) {
-    const { webpackConfig, projectConfig } = global;
+    const { webpackConfig } = global;
     const { isProd } = options;
-    const isElectron = !!projectConfig.electron;
-    const basePath = isElectron ? './src/renderer/' : './src/';
+    const basePath = getBasePath();
 
     webpackConfig.resolve.alias
         .set('@/api', resolve(basePath + 'api'))

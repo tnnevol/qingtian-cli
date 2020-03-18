@@ -1,5 +1,7 @@
 import { CommandModule } from 'yargs';
 
+import { createFile, FileType } from '../utils/fileUtil';
+
 const commandModule: CommandModule<{}, { type: string; name: string; path: string | undefined }> = {
     command: 'generate <type> <name> [path]',
     describe: '代码生成',
@@ -8,7 +10,7 @@ const commandModule: CommandModule<{}, { type: string; name: string; path: strin
         return yargs
             .positional('type', {
                 description: '代码类型',
-                choices: ['hooks', 'component', 'route'],
+                choices: ['hooks', 'component', 'slice'],
                 demandOption: true
             })
             .positional('name', {
@@ -22,9 +24,7 @@ const commandModule: CommandModule<{}, { type: string; name: string; path: strin
             });
     },
     handler: args => {
-        console.log('\n类型：' + args.type);
-        console.log('\n名称：' + args.name);
-        console.log('\n路径：' + args.path);
+        createFile(args.type as FileType, args.name, args.path || '');
     }
 };
 

@@ -2,7 +2,6 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 import { resolve } from '../utils/pathUtil';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const postcssPresetEnv = require('postcss-preset-env')({ browsers: 'last 2 versions', autoprefixer: { grid: true } });
 const postCssOptions = {
     plugins: [postcssPresetEnv]

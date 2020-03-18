@@ -58,12 +58,11 @@ const commandModule: CommandModule<{}, { name: string; type: string; 'skip-insta
         download(downloadAddressMap[projectType], projectPath, (err: Error) => {
             spinner.stop();
             if (err) {
-                console.log(err);
-                return log.error('创建项目失败 😢');
+                return log.error(`创建项目失败：${err.message} 😢`);
             }
             if (!args['skip-git']) shell.exec(`cd ${projectName} && git init`);
             if (!args['skip-install']) shell.exec(`cd ${projectName} && yarn install`);
-            log.success('创建项目成功 😇');
+            log.success(`创建项目成功：${projectPath} 😇`);
         });
     }
 };
