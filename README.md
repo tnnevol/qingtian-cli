@@ -28,7 +28,7 @@ npm install qingtian-cli -g
 
 # Commands
 
--   **new**： 创建 web 或 electron 项目
--   **dev**： 启动项目开发
--   **build**： 生产环境构建
--   **generate**： 常用代码生成
+-   **qt new**： 创建 web 或 electron 项目
+-   **qt dev**： 启动项目开发
+-   **qt build**： 生产环境构建
+-   **qt generate**： 常用代码生成
