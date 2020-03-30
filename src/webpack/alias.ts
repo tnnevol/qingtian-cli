@@ -1,6 +1,6 @@
 import { resolve, getBasePath } from '../utils/pathUtil';
 
-export default function(options: ConfigOptions) {
+export default function (options: ConfigOptions) {
     const { webpackConfig } = global;
     const { isProd } = options;
     const basePath = getBasePath();

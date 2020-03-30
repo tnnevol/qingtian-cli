@@ -13,7 +13,7 @@ function startUpElectron() {
         .on('error', spawnError => console.error(spawnError));
 }
 
-export default function(options: ConfigOptions) {
+export default function (options: ConfigOptions) {
     const { webpackConfig, projectConfig } = global;
     const { isProd } = options;
     const isElectron = !!projectConfig.electron;

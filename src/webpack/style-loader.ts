@@ -10,7 +10,7 @@ const cssRegex = /\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
-export default function(options: ConfigOptions) {
+export default function (options: ConfigOptions) {
     const {
         webpackConfig,
         projectConfig: { sassResources }
@@ -27,11 +27,7 @@ export default function(options: ConfigOptions) {
             .end()
             .when(
                 isProd,
-                config =>
-                    config
-                        .use('mini-scss')
-                        .loader(MiniCssExtractPlugin.loader)
-                        .options({ publicPath: '../' }),
+                config => config.use('mini-scss').loader(MiniCssExtractPlugin.loader).options({ publicPath: '../' }),
                 config => config.use('style-loader').loader(require.resolve('style-loader'))
             )
             .use('css-loader')
@@ -48,10 +44,7 @@ export default function(options: ConfigOptions) {
             })
             .end()
             .when(isProd, config =>
-                config
-                    .use('postcss-loader')
-                    .loader(require.resolve('postcss-loader'))
-                    .options(postCssOptions)
+                config.use('postcss-loader').loader(require.resolve('postcss-loader')).options(postCssOptions)
             )
             .use('sass-loader')
             .loader(require.resolve('sass-loader'))
@@ -73,21 +66,14 @@ export default function(options: ConfigOptions) {
         .end()
         .when(
             isProd,
-            config =>
-                config
-                    .use('mini-css')
-                    .loader(MiniCssExtractPlugin.loader)
-                    .options({ publicPath: '../' }),
+            config => config.use('mini-css').loader(MiniCssExtractPlugin.loader).options({ publicPath: '../' }),
             config => config.use('style-loader').loader(require.resolve('style-loader'))
         )
         .use('css-loader')
         .loader(require.resolve('css-loader'))
         .end()
         .when(isProd, config =>
-            config
-                .use('postcss-loader')
-                .loader(require.resolve('postcss-loader'))
-                .options(postCssOptions)
+            config.use('postcss-loader').loader(require.resolve('postcss-loader')).options(postCssOptions)
         );
 
     configSass(false);

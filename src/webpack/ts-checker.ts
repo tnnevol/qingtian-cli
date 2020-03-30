@@ -12,7 +12,7 @@ export function applytsCheckerConfig(checkerConfig: Config, options: ConfigOptio
     ]);
 }
 
-export default function(options: ConfigOptions) {
+export default function (options: ConfigOptions) {
     const { webpackConfig } = global;
 
     applytsCheckerConfig(webpackConfig, options);

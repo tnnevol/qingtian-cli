@@ -1,6 +1,6 @@
 import { resolve } from '../utils/pathUtil';
 
-export default function() {
+export default function () {
     const { webpackConfig } = global;
 
     webpackConfig.module

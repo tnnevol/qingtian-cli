@@ -23,10 +23,7 @@ export function applyBaseConfig(baseConfig: Config, options: ConfigOptions, isMa
             config => config.devtool('cheap-module-eval-source-map')
         )
         .when(isMainProcess, config =>
-            config
-                .target('electron-main')
-                .node.set('__dirname', false)
-                .set('__filename', false)
+            config.target('electron-main').node.set('__dirname', false).set('__filename', false)
         )
         .cache({
             type: 'filesystem'
@@ -49,7 +46,7 @@ export function applyBaseConfig(baseConfig: Config, options: ConfigOptions, isMa
         .when(needClean, config => config.plugin('clean-webpack-plugin').use(CleanWebpackPlugin));
 }
 
-export default function(options: ConfigOptions) {
+export default function (options: ConfigOptions) {
     const { webpackConfig } = global;
     applyBaseConfig(webpackConfig, options);
 }

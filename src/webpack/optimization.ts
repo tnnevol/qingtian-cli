@@ -1,7 +1,7 @@
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 
-export default function(options: ConfigOptions) {
+export default function (options: ConfigOptions) {
     const { webpackConfig } = global;
     const { isProd } = options;
 

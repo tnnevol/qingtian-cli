@@ -41,7 +41,7 @@ export function applyTsConfig(tsConfig: Config, options: ConfigOptions, isMainPr
         );
 }
 
-export default function(options: ConfigOptions) {
+export default function (options: ConfigOptions) {
     const { webpackConfig } = global;
     applyTsConfig(webpackConfig, options);
 }

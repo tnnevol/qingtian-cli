@@ -1,6 +1,6 @@
 import { resolve } from '../utils/pathUtil';
 
-export default function() {
+export default function () {
     const { projectConfig, webpackConfig } = global;
     const entryPath = projectConfig.electron?.rendererEntry || './src/renderer/index.tsx';
     const isElectron = !!projectConfig.electron;

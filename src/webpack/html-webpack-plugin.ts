@@ -9,7 +9,7 @@ const defaultHtmlConfig = {
     favicon: 'public/favicon.ico'
 };
 
-export default function() {
+export default function () {
     const {
         webpackConfig,
         projectConfig: { pages, title, favicon, filename, template }
