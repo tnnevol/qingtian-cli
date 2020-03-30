@@ -22,9 +22,7 @@
         "eslint-config-prettier": "^6.10.1",
         "eslint-plugin-prettier": "^3.1.2",
         "husky": "^4.2.3",
-        "lint-staged": "^10.0.9",
-        "tslib": "^1.11.1",
-        "typescript": "^3.8.3"
+        "lint-staged": "^10.0.9"
     },
     "dependencies": {
         "case-sensitive-paths-webpack-plugin": "^2.3.0",
@@ -63,7 +61,9 @@
         "webpack-bundle-analyzer": "^3.6.1",
         "webpack-chain": "^6.4.0",
         "webpack-dev-server": "^3.10.3",
-        "yargs": "^15.3.1"
+        "yargs": "^15.3.1",
+        "typescript": "^3.8.3",
+        "tslib": "^1.11.1"
     },
     "husky": {
         "hooks": {
@@ -82,7 +82,7 @@
     },
     "name": "qingtian-cli",
     "description": "一个专注于 react + typescript + electron 开发的工作流",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "main": "lib/index.js",
     "preferGlobal": true,
     "scripts": {

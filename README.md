@@ -1,4 +1,4 @@
-# qt-cli
+# qingtian-cli
 
 > 一个专注于 react + typescript + electron 开发的工作流
 
@@ -41,7 +41,7 @@ npm install qingtian-cli -g
 module.exports = {
     electron: {
         rendererEntry: './src/renderer/index.tsx', // 配置渲染进程入口
-        mainEntry: './src/main/index.ts' // 配置主进程入口
+        mainEntry: './src/main/index.ts', // 配置主进程入口
     },
     template: 'public/index.html',
     filename: 'index.html',
@@ -55,17 +55,17 @@ module.exports = {
             template: 'xxx',
             filename: 'xxx',
             title: 'xxx',
-            favicon: 'xxxxx'
+            favicon: 'xxxxx',
         },
         app: {
             entry: 'xxx',
             template: 'xxx',
             filename: 'xxx',
             title: 'xxx',
-            favicon: 'xxxxx'
-        }
+            favicon: 'xxxxx',
+        },
     },
     // webpack配置扩展
-    chainWebpack: config => {}
+    chainWebpack: (config) => {},
 };
 ```
