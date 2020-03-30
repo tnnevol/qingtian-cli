@@ -5,7 +5,7 @@
 # Install
 
 ```
-yarn add global qingtian-cli
+yarn global add qingtian-cli
 ```
 
 or
