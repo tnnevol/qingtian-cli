@@ -84,7 +84,7 @@
     },
     "name": "qingtian-cli",
     "description": "一个专注于 react + typescript + electron 开发的工作流",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "main": "lib/index.js",
     "preferGlobal": true,
     "scripts": {
@@ -98,12 +98,12 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/xieqingtian/qt-cli.git"
+        "url": "git+https://github.com/xieqingtian/qingtian-cli.git"
     },
     "author": "xieqingtian",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/xieqingtian/qt-cli/issues"
+        "url": "https://github.com/xieqingtian/qingtian-cli/issues"
     },
-    "homepage": "https://github.com/xieqingtian/qt-cli#readme"
+    "homepage": "https://github.com/xieqingtian/qingtian-cli#readme"
 }
