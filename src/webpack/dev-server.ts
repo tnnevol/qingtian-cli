@@ -38,7 +38,7 @@ export default function (options: ConfigOptions) {
                 devServer.before(() => {
                     const webpackConfig = getWebpackConfigOfMainProcess(options);
 
-                    build(webpackConfig.toConfig(), startUpElectron);
+                    build(webpackConfig.toConfig(), true, startUpElectron);
                 })
             )
     );

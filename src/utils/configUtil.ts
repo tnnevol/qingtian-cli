@@ -56,26 +56,27 @@ export function getWebpackConfigOfMainProcess(options: ConfigOptions) {
     return webpackConfig;
 }
 
-export function build(config: webpack.Configuration, callback?: () => void) {
+export function build(config: webpack.Configuration, isMainProcess: boolean, callback?: () => void) {
     webpack(config, (err, stats) => {
+        const isProd = process.env.NODE_ENV === 'production';
         if (err) throw err;
 
-        process.stdout.write(
-            stats.toString({
-                colors: true,
-                modules: false,
-                children: false,
-                chunks: false,
-                chunkModules: false
-            }) + '\n\n'
-        );
-
-        if (stats.hasErrors()) {
-            log.error('打包失败 😢\n');
-            process.exit(1);
+        if (isProd && !isMainProcess) {
+            process.stdout.write(
+                stats.toString({
+                    colors: true,
+                    modules: false,
+                    children: false,
+                    chunks: false,
+                    chunkModules: false
+                }) + '\n\n'
+            );
         }
 
-        log.success('打包成功 😇\n');
+        if (stats.hasErrors()) process.exit(1);
+
+        if (isProd && !isMainProcess) log.success('打包成功 😇\n');
+
         callback && callback();
     });
 }

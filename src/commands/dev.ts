@@ -3,6 +3,7 @@ import WebpackDevServer from 'webpack-dev-server';
 import webpack from 'webpack';
 
 import { getWebpackConfig, printWebpackConfig, getWebpackConfigOfMainProcess } from '../utils/configUtil';
+import log from '../utils/logUtil';
 
 const commandModule: CommandModule<{}, { inspect: boolean }> = {
     command: 'dev',
@@ -33,8 +34,18 @@ const commandModule: CommandModule<{}, { inspect: boolean }> = {
         const devServerConfig = webpackConfig.toConfig().devServer;
         const server = new WebpackDevServer(compiler, devServerConfig);
         const port = devServerConfig?.port!;
+        const info = console.info;
 
-        server.listen(port, '0.0.0.0');
+        compiler.hooks.done.tap('BuildStatsPlugin', () => {
+            console.info = () => {
+                // HACK: 清除devServer初始日志
+            };
+            server.listen(port, '0.0.0.0', err => {
+                console.info = info;
+                if (err) return console.log(err);
+                log.info(`Server listening => http://localhost:${port}/ 👀`);
+            });
+        });
     }
 };
 

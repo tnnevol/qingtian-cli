@@ -2,6 +2,7 @@ import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import { DefinePlugin } from 'webpack';
 import Config from 'webpack-chain';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
+import WebpackBar from 'webpackbar';
 
 import { resolve } from '../utils/pathUtil';
 
@@ -10,6 +11,7 @@ export function applyBaseConfig(baseConfig: Config, options: ConfigOptions, isMa
     const needClean = isMainProcess || !projectConfig.electron;
     const { isProd } = options;
     const mainEntry = projectConfig.electron?.mainEntry || './src/main/index.ts';
+    const isElectron = !!projectConfig.electron;
 
     baseConfig
         .when(isMainProcess && !!mainEntry, config => config.entry('main').add(resolve(mainEntry)))
@@ -42,6 +44,14 @@ export function applyBaseConfig(baseConfig: Config, options: ConfigOptions, isMa
         .end()
         .plugin('caseSensitivePaths-plugin')
         .use(CaseSensitivePathsPlugin)
+        .end()
+        .plugin('progress-bar')
+        .use(WebpackBar, [
+            {
+                name: isElectron ? (isMainProcess ? '主进程构建' : '渲染进程构建') : 'Web构建',
+                color: isMainProcess ? 'yellow' : 'green'
+            }
+        ])
         .end()
         .when(needClean, config => config.plugin('clean-webpack-plugin').use(CleanWebpackPlugin));
 }

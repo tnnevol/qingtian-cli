@@ -26,7 +26,7 @@ const commandModule: CommandModule<{}, { inspect: boolean }> = {
 
         if (!isElectron) {
             if (args.inspect) return printWebpackConfig(webpackConfig.toString());
-            return build(webpackConfig.toConfig());
+            return build(webpackConfig.toConfig(), false);
         }
 
         const mainProcessConfig = getWebpackConfigOfMainProcess({
@@ -40,7 +40,7 @@ const commandModule: CommandModule<{}, { inspect: boolean }> = {
             return;
         }
 
-        build(mainProcessConfig.toConfig(), () => build(webpackConfig.toConfig()));
+        build(mainProcessConfig.toConfig(), true, () => build(webpackConfig.toConfig(), false));
     }
 };
 
