@@ -41,7 +41,7 @@ npm install qingtian-cli -g
 module.exports = {
     electron: {
         rendererEntry: './src/renderer/index.tsx', // 配置渲染进程入口
-        mainEntry: './src/main/index.ts', // 配置主进程入口
+        mainEntry: './src/main/index.ts' // 配置主进程入口
     },
     template: 'public/index.html',
     filename: 'index.html',
@@ -55,17 +55,27 @@ module.exports = {
             template: 'xxx',
             filename: 'xxx',
             title: 'xxx',
-            favicon: 'xxxxx',
+            favicon: 'xxxxx'
         },
         app: {
             entry: 'xxx',
             template: 'xxx',
             filename: 'xxx',
             title: 'xxx',
-            favicon: 'xxxxx',
-        },
+            favicon: 'xxxxx'
+        }
     },
     // webpack配置扩展
-    chainWebpack: (config) => {},
+    chainWebpack: config => {}
 };
 ```
+
+# Display
+
+![1](public/1.png)
+![2](public/2.png)
+![3](public/3.png)
+![4](public/4.png)
+![5](public/5.png)
+![6](public/6.png)
+![7](public/7.png)
