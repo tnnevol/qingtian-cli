@@ -1,15 +1,18 @@
-import { resolve, getBasePath } from '../utils/pathUtil';
+import { resolve } from '../utils/pathUtil';
+import { getProjectAlias } from '../utils/configUtil';
+
+const projectTsConfig = require(resolve('tsconfig.json'));
 
 export default function (options: ConfigOptions) {
     const { webpackConfig } = global;
     const { isProd } = options;
-    const basePath = getBasePath();
+    const alias = getProjectAlias(projectTsConfig);
 
-    webpackConfig.resolve.alias
-        .set('@/api', resolve(basePath + 'api'))
-        .set('@/components', resolve(basePath + 'components'))
-        .set('@/hooks', resolve(basePath + 'hooks'))
-        .set('@/utils', resolve(basePath + 'utils'))
-        .set('@/store', resolve(basePath + 'store'))
-        .when(!isProd, config => config.set('react-dom', '@hot-loader/react-dom'));
+    for (const key in alias) {
+        if (alias.hasOwnProperty(key)) {
+            webpackConfig.resolve.alias.set(key, alias[key]);
+        }
+    }
+
+    webpackConfig.resolve.alias.when(!isProd, config => config.set('react-dom', '@hot-loader/react-dom'));
 }

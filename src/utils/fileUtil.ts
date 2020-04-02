@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import { join, parse } from 'path';
+import { join, parse, resolve } from 'path';
 import Handlebars from 'handlebars';
 
 import log from './logUtil';
@@ -63,4 +63,22 @@ export function createFile(type: FileType, name: string, path = '') {
         : join(process.cwd(), fileName + ext);
 
     generator(type, filePath);
+}
+
+export function correctProjectConfig(projectPath: string) {
+    const configPath = join(projectPath, `${global.cliName}.config.ts`);
+
+    try {
+        const config = require(configPath);
+        const data = `// eslint-disable-next-line spaced-comment
+/// <reference path="${resolve(__dirname, '..', '..', 'typings', 'global.d.ts')}" />
+
+const projectConfig: NodeJS.Global['projectConfig'] = ${JSON.stringify(config)};
+
+module.exports = projectConfig;`;
+
+        fs.writeFileSync(configPath, data);
+    } catch (error) {
+        console.log(error);
+    }
 }

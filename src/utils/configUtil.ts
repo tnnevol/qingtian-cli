@@ -10,6 +10,21 @@ import { applyBaseConfig } from '../webpack/base';
 import { applytsCheckerConfig } from '../webpack/ts-checker';
 import { applyTsConfig } from '../webpack/ts-loader';
 
+export interface TsconfigFile {
+    compilerOptions: {
+        baseUrl: string;
+        paths: {
+            [aliasName: string]: string[];
+        };
+    };
+}
+
+type WebpackAliases = {
+    [aliasName: string]: string;
+};
+
+const replaceGlobs = (path: string): string => path.replace(/(\/\*\*)*\/\*$/, '');
+
 const prettyConfig: prettier.Options = {
     printWidth: 120,
     tabWidth: 4,
@@ -19,13 +34,23 @@ const prettyConfig: prettier.Options = {
     endOfLine: 'lf'
 };
 
+export function getProjectAlias(tsconfigFile: TsconfigFile, dirname = '.'): WebpackAliases {
+    const { baseUrl, paths } = tsconfigFile.compilerOptions;
+    return Object.keys(paths).reduce((aliases: WebpackAliases, pathName) => {
+        const alias = replaceGlobs(pathName);
+        const p = replaceGlobs(paths[pathName][0]);
+        aliases[alias] = path.resolve(dirname, baseUrl, p);
+        return aliases;
+    }, {});
+}
+
 export function printWebpackConfig(content: string) {
     const result = prettier.format(content, prettyConfig);
     console.log(result);
 }
 
 export function getProjectConfig() {
-    const configPath = resolve(`${global.cliName}.config.js`);
+    const configPath = resolve(`${global.cliName}.config.ts`);
     if (!fs.existsSync(configPath)) return {};
     return require(configPath);
 }

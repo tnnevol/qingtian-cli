@@ -3,8 +3,11 @@ import chalk from 'chalk';
 import Config from 'webpack-chain';
 import logSymbols from 'log-symbols';
 import figlet from 'figlet';
+import * as tsNode from 'ts-node';
 
 import { getProjectConfig } from './utils/configUtil';
+
+tsNode.register({ transpileOnly: true });
 
 global.cliName = Object.keys(require('../package.json').bin)[0];
 global.webpackConfig = new Config();
