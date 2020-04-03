@@ -5,7 +5,6 @@ import shell from 'shelljs';
 
 import log from '../utils/logUtil';
 import { resolve } from '../utils/pathUtil';
-import { correctProjectConfig } from '../utils/fileUtil';
 
 const download = require('download-git-repo');
 const downloadAddressMap: Record<string, string> = {
@@ -61,7 +60,6 @@ const commandModule: CommandModule<{}, { name: string; type: string; 'skip-insta
             if (err) {
                 return log.error(`创建项目失败：${err.message} 😢`);
             }
-            correctProjectConfig(projectPath);
             if (!args['skip-git']) shell.exec(`cd ${projectName} && git init`);
             if (!args['skip-install']) shell.exec(`cd ${projectName} && yarn install`);
             log.success(`创建项目成功：${projectPath} 😇`);

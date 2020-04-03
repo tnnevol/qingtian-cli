@@ -1,12 +1,10 @@
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import Config from 'webpack-chain';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function applytsCheckerConfig(checkerConfig: Config, options: ConfigOptions) {
-    const { isProd } = options;
-
     checkerConfig.plugin('ts-checker-plugin').use(ForkTsCheckerWebpackPlugin, [
         {
-            async: !isProd,
             logger: {
                 error(error) {
                     console.log(error);
@@ -17,7 +15,8 @@ export function applytsCheckerConfig(checkerConfig: Config, options: ConfigOptio
                 info() {
                     // HACK: 隐藏冗余信息
                 }
-            }
+            },
+            measureCompilationTime: false
         }
     ]);
 }

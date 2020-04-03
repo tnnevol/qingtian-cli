@@ -50,7 +50,7 @@ export function printWebpackConfig(content: string) {
 }
 
 export function getProjectConfig() {
-    const configPath = resolve(`${global.cliName}.config.ts`);
+    const configPath = resolve(`${global.cliName}.config.js`);
     if (!fs.existsSync(configPath)) return {};
     return require(configPath);
 }

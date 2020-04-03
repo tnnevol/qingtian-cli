@@ -36,13 +36,10 @@ npm install qingtian-cli -g
 
 # Config
 
-新建一个 `qt.config.ts` 置于项目根目录，内容如下，`reference path` 可使用 `qt cc` 命令修正
+新建一个 `qt.config.js` 置于项目根目录，内容如下
 
 ```js
-// eslint-disable-next-line spaced-comment
-/// <reference path="G:\workspace\qt-cli\typings\global.d.ts" />
-
-const projectConfig: NodeJS.Global['projectConfig'] = {
+module.exports = {
     electron: {
         rendererEntry: './src/renderer/index.tsx', // 配置渲染进程入口
         mainEntry: './src/main/index.ts' // 配置主进程入口
@@ -72,8 +69,6 @@ const projectConfig: NodeJS.Global['projectConfig'] = {
     // webpack配置扩展
     chainWebpack: config => {}
 };
-
-module.exports = projectConfig;
 ```
 
 # Display
