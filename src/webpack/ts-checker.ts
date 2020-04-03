@@ -9,14 +9,13 @@ export function applytsCheckerConfig(checkerConfig: Config, options: ConfigOptio
                 error(error) {
                     console.log(error);
                 },
-                warn(warn) {
-                    console.warn(warn);
+                warn() {
+                    // HACK: 隐藏冗余信息
                 },
                 info() {
                     // HACK: 隐藏冗余信息
                 }
-            },
-            measureCompilationTime: false
+            }
         }
     ]);
 }
