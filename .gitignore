@@ -3,3 +3,4 @@ node_modules
 lib
 main-process-preview.js
 preview.js
+.DS_Store
