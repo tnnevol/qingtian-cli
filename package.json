@@ -85,7 +85,7 @@
     },
     "name": "qingtian-cli",
     "description": "一个专注于 react + typescript + electron 开发的工作流",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "main": "lib/index.js",
     "preferGlobal": true,
     "scripts": {
