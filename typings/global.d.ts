@@ -37,6 +37,8 @@ declare global {
                 title?: string;
                 // 配置 favicon 路径，默认路径为 public/favicon.ico
                 favicon?: string;
+                // 生成的静态资源是否加hash以控制缓存
+                filenameHashing?: boolean;
             };
         }
         interface ProcessEnv {

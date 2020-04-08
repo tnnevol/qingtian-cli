@@ -13,9 +13,11 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 export default function (options: ConfigOptions) {
     const {
         webpackConfig,
-        projectConfig: { sassResources }
+        projectConfig: { sassResources, filenameHashing }
     } = global;
     const { isProd } = options;
+    const disableHash = filenameHashing === false;
+    const filename = `css/[name]${disableHash ? '' : '.[contenthash:8]'}.css`;
 
     function configSass(cssModule: boolean) {
         webpackConfig.module
@@ -82,8 +84,8 @@ export default function (options: ConfigOptions) {
     webpackConfig.when(isProd, config =>
         config.plugin('mini-css-extract').use(MiniCssExtractPlugin, [
             {
-                filename: 'css/[name].css',
-                chunkFilename: 'css/[name].css'
+                filename,
+                chunkFilename: filename
             }
         ])
     );

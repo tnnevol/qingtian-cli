@@ -1,7 +1,11 @@
 import { resolve } from '../utils/pathUtil';
 
 export default function () {
-    const { webpackConfig } = global;
+    const {
+        webpackConfig,
+        projectConfig: { filenameHashing }
+    } = global;
+    const disableHash = filenameHashing === false;
 
     webpackConfig.module
         .rule('img')
@@ -13,8 +17,8 @@ export default function () {
         .use('url-loader')
         .loader(require.resolve('url-loader'))
         .options({
-            limit: 10000,
-            name: 'img/[hash:8].[name].[ext]'
+            limit: 4096,
+            name: `img/[name]${disableHash ? '' : '.[hash:8]'}.[ext]`
         });
 
     webpackConfig.module
@@ -27,6 +31,6 @@ export default function () {
         .use('file-loader')
         .loader(require.resolve('file-loader'))
         .options({
-            name: 'font/[hash:8].[name].[ext]'
+            name: `font/[name]${disableHash ? '' : '.[hash:8]'}.[ext]`
         });
 }

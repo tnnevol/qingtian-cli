@@ -3,6 +3,7 @@ import { DefinePlugin } from 'webpack';
 import Config from 'webpack-chain';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import WebpackBar from 'webpackbar';
+import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
 
 import { resolve } from '../utils/pathUtil';
 
@@ -12,6 +13,12 @@ export function applyBaseConfig(baseConfig: Config, options: ConfigOptions, isMa
     const { isProd } = options;
     const mainEntry = projectConfig.electron?.mainEntry || './src/main/index.ts';
     const isElectron = !!projectConfig.electron;
+    const disableHash = projectConfig.filenameHashing === false;
+    const outputFilename = isMainProcess
+        ? '[name].js'
+        : disableHash || !isProd
+        ? 'js/[name].js'
+        : 'js/[name].[contenthash:8].js';
 
     baseConfig
         .when(isMainProcess && !!mainEntry, config => config.entry('main').add(resolve(mainEntry)))
@@ -30,7 +37,8 @@ export function applyBaseConfig(baseConfig: Config, options: ConfigOptions, isMa
         .cache({
             type: 'filesystem'
         })
-        .output.filename(isMainProcess ? '[name].js' : 'js/[name].js')
+        .output.filename(outputFilename)
+        .chunkFilename(outputFilename)
         .end()
         .resolve.extensions.merge(['.tsx', '.ts', '.js', '.json'])
         .end()
@@ -53,7 +61,12 @@ export function applyBaseConfig(baseConfig: Config, options: ConfigOptions, isMa
             }
         ])
         .end()
-        .when(needClean, config => config.plugin('clean-webpack-plugin').use(CleanWebpackPlugin));
+        .when(needClean, config => config.plugin('clean-webpack-plugin').use(CleanWebpackPlugin))
+        .when(!isProd, config =>
+            config
+                .plugin('hard-source-plugin')
+                .use(HardSourceWebpackPlugin, [{ info: { level: 'warn', mode: 'test' } }])
+        );
 }
 
 export default function (options: ConfigOptions) {
