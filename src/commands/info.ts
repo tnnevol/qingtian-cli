@@ -30,13 +30,13 @@ function findUp(names: string | string[], from: string) {
 
 function getPkgInfo(pkgs: string[]) {
     const obj: Record<string, { path: string; version: string }> = {};
-
-    pkgs.forEach(p => {
-        const maybePkg = findUp(p, path.join(__dirname, '..', '..')) as string;
-        console.log(maybePkg);
-        const json = require(path.resolve(maybePkg, 'package.json'));
-        obj[p] = { path: maybePkg, version: json.version };
-    });
+    try {
+        pkgs.forEach(p => {
+            const maybePkg = findUp(p, path.join(__dirname, '..', '..')) as string;
+            const json = require(path.resolve(maybePkg, 'package.json'));
+            obj[p] = { path: maybePkg, version: json.version };
+        });
+    } catch (error) {}
 
     return obj;
 }
@@ -51,15 +51,15 @@ const commandModule: CommandModule<{}, {}> = {
         console.log(
             chalk.blue(
                 `
-Qingtian CLI: ${packageJson.version}
+Qingtian☀️  CLI: ${packageJson.version}
 Node: ${process.versions.node}
 OS: ${process.platform} ${process.arch}
-typescript.tsdk: ${path.resolve(infoMap['typescript'].path, 'lib')}
+typescript.tsdk: ${path.resolve(infoMap['typescript']?.path || '', 'lib')}
 
 Package${namePad.slice(7)}Version
 -------${namePad.replace(/ /g, '-')}------------------
 ${packages
-    .map(module => `${module}${namePad.slice(module.length)}${infoMap[module].version}`)
+    .map(module => `${module}${namePad.slice(module.length)}${infoMap[module]?.version}`)
     .sort()
     .join('\n')}
 `
