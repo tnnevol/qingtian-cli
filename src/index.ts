@@ -7,8 +7,6 @@ import { getProjectConfig } from './utils/configUtil';
 
 const packageJson = require('../package.json');
 
-console.log('☀️  Qingtian v' + packageJson.version + '\n');
-
 global.cliName = Object.keys(packageJson.bin)[0];
 global.webpackConfig = new Config();
 global.projectConfig = getProjectConfig();

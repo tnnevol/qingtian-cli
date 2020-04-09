@@ -8,6 +8,7 @@ export default function (options: ConfigOptions) {
     if (!isProd) return;
 
     webpackConfig.optimization
+        .runtimeChunk({ name: 'runtime' })
         .splitChunks({
             chunks: 'async',
             minSize: 30000,
@@ -15,17 +16,25 @@ export default function (options: ConfigOptions) {
             maxAsyncRequests: 3,
             maxInitialRequests: 3,
             cacheGroups: {
-                vendors: {
-                    name: 'chunk-vendors',
-                    test: /[\\/]node_modules[\\/]/,
-                    priority: -10,
-                    chunks: 'initial'
-                },
                 common: {
                     name: 'chunk-common',
                     minChunks: 2,
                     priority: -20,
                     chunks: 'initial',
+                    reuseExistingChunk: true
+                },
+                vendors: {
+                    name: 'chunk-vendors',
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -15,
+                    chunks: 'initial',
+                    reuseExistingChunk: true
+                },
+                antd: {
+                    name: 'chunk-antd',
+                    chunks: 'initial',
+                    test: /[\\/]node_modules[\\/](antd|@ant-design)/,
+                    priority: -10,
                     reuseExistingChunk: true
                 }
             }
@@ -44,6 +53,7 @@ export default function (options: ConfigOptions) {
         .use(TerserPlugin, [
             {
                 parallel: true,
+                extractComments: false,
                 terserOptions: {
                     output: {
                         comments: false

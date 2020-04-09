@@ -1,6 +1,8 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import Config from 'webpack-chain';
 
 import { resolve } from '../utils/pathUtil';
+import InlineChunkHtmlPlugin from '../utils/InlineChunkHtmlPlugin';
 
 const defaultHtmlConfig = {
     template: 'public/index.html',
@@ -9,12 +11,19 @@ const defaultHtmlConfig = {
     favicon: 'public/favicon.ico'
 };
 
+function inlineRuntime(config: Config) {
+    config.when(process.env.NODE_ENV === 'production', c =>
+        c.plugin('inline-runtime').use(InlineChunkHtmlPlugin, [HtmlWebpackPlugin, [/runtime/]])
+    );
+}
+
 export default function () {
     const {
         webpackConfig,
         projectConfig: { pages, title, favicon, filename, template }
     } = global;
 
+    // TODO: 多页面打包待测试
     if (!!pages) {
         for (const key in pages) {
             if (pages.hasOwnProperty(key)) {
@@ -43,7 +52,8 @@ export default function () {
                     ]);
             }
         }
-        return;
+
+        return inlineRuntime(webpackConfig);
     }
 
     webpackConfig.plugin('html').use(HtmlWebpackPlugin, [
@@ -55,4 +65,6 @@ export default function () {
             filename: filename || defaultHtmlConfig.filename
         }
     ]);
+
+    inlineRuntime(webpackConfig);
 }
