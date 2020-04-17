@@ -16,9 +16,7 @@ export function applyBaseConfig(baseConfig: Config, options: ConfigOptions, isMa
     const disableHash = projectConfig.filenameHashing === false;
     const outputFilename = isMainProcess
         ? '[name].js'
-        : disableHash || !isProd
-        ? 'js/[name].js'
-        : 'js/[name].[contenthash:8].js';
+        : `${isProd ? 'js/' : ''}[name]${disableHash || !isProd ? '' : '.[contenthash:8]'}.js`;
 
     baseConfig
         .when(isMainProcess && !!mainEntry, config => config.entry('main').add(resolve(mainEntry)))
@@ -39,6 +37,7 @@ export function applyBaseConfig(baseConfig: Config, options: ConfigOptions, isMa
         })
         .output.filename(outputFilename)
         .chunkFilename(outputFilename)
+        .publicPath(projectConfig.publicPath || '/')
         .end()
         .resolve.extensions.merge(['.tsx', '.ts', '.js', '.json'])
         .end()

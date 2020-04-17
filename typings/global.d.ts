@@ -39,6 +39,7 @@ declare global {
                 favicon?: string;
                 // 生成的静态资源是否加hash以控制缓存
                 filenameHashing?: boolean;
+                publicPath?: string;
             };
         }
         interface ProcessEnv {

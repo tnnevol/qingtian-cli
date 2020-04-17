@@ -78,6 +78,26 @@ export default function (options: ConfigOptions) {
             config.use('postcss-loader').loader(require.resolve('postcss-loader')).options(postCssOptions)
         );
 
+    webpackConfig.module
+        .rule('less')
+        .test(/\.less$/)
+        .include.add(/node_modules/)
+        .end()
+        .when(
+            isProd,
+            config => config.use('mini-less').loader(MiniCssExtractPlugin.loader).options({ publicPath: '../' }),
+            config => config.use('style-loader').loader(require.resolve('style-loader'))
+        )
+        .use('css-loader')
+        .loader(require.resolve('css-loader'))
+        .end()
+        .when(isProd, config =>
+            config.use('postcss-loader').loader(require.resolve('postcss-loader')).options(postCssOptions)
+        )
+        .use('less-loader')
+        .loader(require.resolve('less-loader'))
+        .options({ javascriptEnabled: true });
+
     configSass(false);
     configSass(true);
 
