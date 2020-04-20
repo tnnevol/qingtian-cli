@@ -51,7 +51,7 @@ const commandModule: CommandModule<{}, { name: string; type: string; 'skip-insta
         const projectPath = resolve(projectName);
 
         if (fs.existsSync(projectPath)) {
-            return log.error('该项目已存在', true);
+            return log.error('该项目已存在');
         }
 
         spinner.start();

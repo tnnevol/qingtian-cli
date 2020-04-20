@@ -20,7 +20,7 @@ export function applyBaseConfig(baseConfig: Config, options: ConfigOptions, isMa
 
     baseConfig
         .when(isMainProcess && !!mainEntry, config => config.entry('main').add(resolve(mainEntry)))
-        .mode(process.env.NODE_ENV)
+        .mode(process.env.NODE_ENV as 'none' | 'development' | 'production')
         .context(resolve('./'))
         .performance.hints(false)
         .end()

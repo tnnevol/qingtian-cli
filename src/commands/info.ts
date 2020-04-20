@@ -49,7 +49,7 @@ const commandModule: CommandModule<{}, {}> = {
         const infoMap = getPkgInfo(packages);
 
         console.log(
-            chalk.blue(
+            chalk.green(
                 `
 Qingtian☀️  CLI: ${packageJson.version}
 Node: ${process.versions.node}

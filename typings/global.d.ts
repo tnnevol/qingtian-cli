@@ -14,6 +14,7 @@ declare global {
                     // 配置 electron 项目主进程入口文件路径
                     mainEntry?: string;
                 };
+                nw?: {};
                 // webpack 配置拓展
                 chainWebpack?: (config: Config) => void;
                 // 多页面打包配置
@@ -41,9 +42,6 @@ declare global {
                 filenameHashing?: boolean;
                 publicPath?: string;
             };
-        }
-        interface ProcessEnv {
-            NODE_ENV: 'none' | 'development' | 'production';
         }
     }
 
