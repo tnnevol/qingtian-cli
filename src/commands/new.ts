@@ -1,7 +1,7 @@
-import { CommandModule } from 'yargs';
 import fs from 'fs-extra';
 import ora from 'ora';
 import shell from 'shelljs';
+import { CommanderStatic } from 'commander';
 
 import log from '../utils/logUtil';
 import { resolve } from '../utils/pathUtil';
@@ -13,58 +13,31 @@ const downloadAddressMap: Record<string, string> = {
 };
 const spinner = ora('正在下载项目模版...\n');
 
-const commandModule: CommandModule<{}, { name: string; type: string; 'skip-install': boolean; 'skip-git': boolean }> = {
-    command: 'new <name>',
-    aliases: 'n <name>',
-    describe: '项目创建',
-    builder: yargs => {
-        return yargs
-            .positional('name', {
-                demandOption: true,
-                description: '项目名称',
-                type: 'string'
-            })
-            .option('type', {
-                type: 'string',
-                alias: 't',
-                description: '项目类型',
-                choices: Object.keys(downloadAddressMap),
-                default: 'web',
-                demandOption: false
-            })
-            .option('skip-install', {
-                type: 'boolean',
-                alias: 'si',
-                description: '是否跳过安装依赖包',
-                default: false
-            })
-            .option('skip-git', {
-                type: 'boolean',
-                alias: 'sg',
-                description: '是否跳过初始化git仓库',
-                default: false
-            });
-    },
-    handler: args => {
-        const projectType = args.type;
-        const projectName = args.name;
-        const projectPath = resolve(projectName);
+export default function (program: CommanderStatic) {
+    program
+        .command('new <name>')
+        .description('项目创建')
+        .requiredOption('-t --type <web|electron>', '项目类型', 'web')
+        .option('-si --skip-install', '是否跳过安装依赖包')
+        .option('-sg --skip-git', '是否跳过初始化git仓库')
+        .action((name: string, args) => {
+            const projectType = args.type;
+            const projectName = name;
+            const projectPath = resolve(projectName);
 
-        if (fs.existsSync(projectPath)) {
-            return log.error('该项目已存在');
-        }
-
-        spinner.start();
-        download(downloadAddressMap[projectType], projectPath, (err: Error) => {
-            spinner.stop();
-            if (err) {
-                return log.error(`创建项目失败：${err.message} 😢`);
+            if (fs.existsSync(projectPath)) {
+                return log.error('该项目已存在');
             }
-            if (!args['skip-git']) shell.exec(`cd ${projectName} && git init`);
-            if (!args['skip-install']) shell.exec(`cd ${projectName} && yarn install`);
-            log.success(`创建项目成功：${projectPath} 😇`);
-        });
-    }
-};
 
-export const { command, describe, aliases, handler, builder } = commandModule;
+            spinner.start();
+            download(downloadAddressMap[projectType], projectPath, (err: Error) => {
+                spinner.stop();
+                if (err) {
+                    return log.error(`创建项目失败：${err.message} 😢`);
+                }
+                if (!args['skipGit']) shell.exec(`cd ${projectName} && git init`);
+                if (!args['skipInstall']) shell.exec(`cd ${projectName} && yarn install`);
+                log.success(`创建项目成功：${projectPath} 😇`);
+            });
+        });
+}
