@@ -5,7 +5,7 @@ module.exports = () => ({
         transformerFactory([
             {
                 libraryName: 'antd',
-                style: 'css'
+                style: true
             },
             {
                 style: false,
