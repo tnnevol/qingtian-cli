@@ -1,7 +1,7 @@
+import { CommandModule } from 'yargs';
 import chalk from 'chalk';
 import path from 'path';
 import { existsSync } from 'fs-extra';
-import { CommanderStatic } from 'commander';
 
 const packageJson = require('../../package.json');
 const packages = ['typescript', 'webpack'];
@@ -41,8 +41,11 @@ function getPkgInfo(pkgs: string[]) {
     return obj;
 }
 
-export default function (program: CommanderStatic) {
-    program.option('-i --info', '查看基本信息').action(() => {
+const commandModule: CommandModule<{}, {}> = {
+    command: 'info',
+    describe: '查看基本信息',
+    aliases: 'i',
+    handler: () => {
         const infoMap = getPkgInfo(packages);
 
         console.log(
@@ -62,5 +65,7 @@ ${packages
 `
             )
         );
-    });
-}
+    }
+};
+
+export const { command, describe, aliases, handler } = commandModule;
