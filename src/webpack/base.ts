@@ -37,7 +37,7 @@ export function applyBaseConfig(baseConfig: Config, options: ConfigOptions, isMa
         })
         .output.filename(outputFilename)
         .chunkFilename(outputFilename)
-        .publicPath(projectConfig.publicPath || '/')
+        .publicPath(projectConfig.publicPath === undefined ? '/' : projectConfig.publicPath)
         .end()
         .resolve.extensions.merge(['.tsx', '.ts', '.js', '.json'])
         .end()
