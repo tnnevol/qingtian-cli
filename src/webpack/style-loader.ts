@@ -96,7 +96,11 @@ export default function (options: ConfigOptions) {
         )
         .use('less-loader')
         .loader(require.resolve('less-loader'))
-        .options({ javascriptEnabled: true });
+        .options({
+            lessOptions: {
+                javascriptEnabled: true
+            }
+        });
 
     configSass(false);
     configSass(true);

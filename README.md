@@ -31,6 +31,7 @@ npm install qingtian-cli -g
 -   构建进度条 ✅
 -   根据 tsconfig paths 配置自动映射到 webpack alias ✅
 -   moment locale 问题处理 ✅
+-   styled-components 生成 class 名称优化 ✅
 
 # TodoList
 
