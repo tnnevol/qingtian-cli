@@ -36,6 +36,7 @@ const prettyConfig: prettier.Options = {
 
 export function getProjectAlias(tsconfigFile: TsconfigFile, dirname = '.'): WebpackAliases {
     const { baseUrl, paths } = tsconfigFile.compilerOptions;
+    if (!paths) return {};
     return Object.keys(paths).reduce((aliases: WebpackAliases, pathName) => {
         const alias = replaceGlobs(pathName);
         const p = replaceGlobs(paths[pathName][0]);
