@@ -1,6 +1,7 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 import { resolve } from '../utils/pathUtil';
+import { isProduction } from '../utils/envUtil';
 
 const postcssPresetEnv = require('postcss-preset-env')({ browsers: 'last 2 versions', autoprefixer: { grid: true } });
 const postCssOptions = {
@@ -10,12 +11,12 @@ const cssRegex = /\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
-export default function (options: ConfigOptions) {
+export default function () {
     const {
         webpackConfig,
         projectConfig: { sassResources, filenameHashing }
     } = global;
-    const { isProd } = options;
+    const isProd = isProduction();
     const disableHash = filenameHashing === false;
     const filename = `css/[name]${disableHash ? '' : '.[contenthash:8]'}.css`;
 

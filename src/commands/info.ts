@@ -41,7 +41,7 @@ function getPkgInfo(pkgs: string[]) {
     return obj;
 }
 
-const commandModule: CommandModule<{}, {}> = {
+const commandModule: CommandModule = {
     command: 'info',
     describe: '查看基本信息',
     aliases: 'i',

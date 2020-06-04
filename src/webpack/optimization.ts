@@ -1,11 +1,12 @@
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 
-export default function (options: ConfigOptions) {
-    const { webpackConfig } = global;
-    const { isProd } = options;
+import { isProduction } from '../utils/envUtil';
 
-    if (!isProd) return;
+export default function () {
+    const { webpackConfig } = global;
+
+    if (!isProduction()) return;
 
     webpackConfig.optimization
         .runtimeChunk({ name: 'runtime' })

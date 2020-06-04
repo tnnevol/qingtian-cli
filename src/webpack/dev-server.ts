@@ -2,6 +2,7 @@ import { spawn } from 'child_process';
 
 import { getWebpackConfigOfMainProcess, build } from '../utils/configUtil';
 import { resolve } from '../utils/pathUtil';
+import { isProduction, isElectron } from '../utils/envUtil';
 
 function startUpElectron() {
     spawn('node', [resolve('./node_modules/electron/cli.js'), resolve('./dist/main.js')], {
@@ -13,12 +14,10 @@ function startUpElectron() {
         .on('error', spawnError => console.error(spawnError));
 }
 
-export default function (options: ConfigOptions) {
-    const { webpackConfig, projectConfig } = global;
-    const { isProd } = options;
-    const isElectron = !!projectConfig.electron;
+export default function () {
+    const { webpackConfig } = global;
 
-    webpackConfig.when(!isProd, config =>
+    webpackConfig.when(!isProduction(), config =>
         config.devServer
             .publicPath('/')
             .contentBase(false)
@@ -34,11 +33,11 @@ export default function (options: ConfigOptions) {
             .headers({ 'Access-Control-Allow-Origin': '*' })
             .clientLogLevel('none')
             .historyApiFallback(true)
-            .when(isElectron, devServer =>
+            .when(isElectron(), devServer =>
                 devServer.before(() => {
-                    const webpackConfig = getWebpackConfigOfMainProcess(options);
+                    const webpackConfig = getWebpackConfigOfMainProcess();
 
-                    build(webpackConfig.toConfig(), true, startUpElectron);
+                    build(webpackConfig.toConfig(), startUpElectron);
                 })
             )
     );

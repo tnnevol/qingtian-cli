@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Config from 'webpack-chain';
 
 declare global {
@@ -43,10 +42,5 @@ declare global {
                 publicPath?: string;
             };
         }
-    }
-
-    interface ConfigOptions {
-        isProd: boolean;
-        needAnalyz: boolean;
     }
 }

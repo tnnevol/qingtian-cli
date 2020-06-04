@@ -1,12 +1,12 @@
 import path from 'path';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { ContextReplacementPlugin } from 'webpack';
 import Config from 'webpack-chain';
 
 import { resolve } from '../utils/pathUtil';
+import { isProduction } from '../utils/envUtil';
 
-export function applyTsConfig(tsConfig: Config, options: ConfigOptions, isMainProcess = false) {
-    const { isProd, needAnalyz } = options;
+export function applyTsConfig(tsConfig: Config, isMainProcess = false) {
+    const isProd = isProduction();
 
     tsConfig.module
         .rule('ts')
@@ -20,28 +20,18 @@ export function applyTsConfig(tsConfig: Config, options: ConfigOptions, isMainPr
         .options({
             transpileOnly: true,
             context: resolve('./'),
-            getCustomTransformers: path.resolve(__dirname, '..', 'transformers.js'),
+            getCustomTransformers: path.resolve(__dirname, '..', 'utils', 'transformers.js'),
             compilerOptions: {
                 sourceMap: !isProd
             }
         });
 
-    tsConfig
-        .when(!isMainProcess && isProd && needAnalyz, config =>
-            config.plugin('analyzer-plugin').use(BundleAnalyzerPlugin, [
-                {
-                    analyzerMode: 'static',
-                    generateStatsFile: true,
-                    logLevel: 'error'
-                }
-            ])
-        )
-        .when(!isMainProcess, config =>
-            config.plugin('context-replacement-plugin').use(ContextReplacementPlugin, [/moment[\/\\]locale$/, /zh-cn/])
-        );
+    tsConfig.when(!isMainProcess, config =>
+        config.plugin('context-replacement-plugin').use(ContextReplacementPlugin, [/moment[\/\\]locale$/, /zh-cn/])
+    );
 }
 
-export default function (options: ConfigOptions) {
+export default function () {
     const { webpackConfig } = global;
-    applyTsConfig(webpackConfig, options);
+    applyTsConfig(webpackConfig);
 }

@@ -1,20 +1,32 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import Config from 'webpack-chain';
 
-import { resolve } from '../utils/pathUtil';
-import InlineChunkHtmlPlugin from '../utils/InlineChunkHtmlPlugin';
-
-const defaultHtmlConfig = {
-    template: 'public/index.html',
-    filename: 'index.html',
-    title: 'Webpack App',
-    favicon: 'public/favicon.ico'
-};
+import { resolve, getAssetPath } from '../utils/pathUtil';
+import InlineChunkHtmlPlugin from '../plugins/InlineChunkHtmlPlugin';
+import { isProduction, isNotWebApp } from '../utils/envUtil';
 
 function inlineRuntime(config: Config) {
-    config.when(process.env.NODE_ENV === 'production', c =>
+    config.when(isProduction(), c =>
         c.plugin('inline-runtime').use(InlineChunkHtmlPlugin, [HtmlWebpackPlugin, [/runtime/]])
     );
+}
+
+function getTitle(title: string | undefined) {
+    if (isNotWebApp()) return undefined;
+    return title || 'React App';
+}
+
+function getFavicon(favicon: string | undefined) {
+    if (isNotWebApp()) return undefined;
+    return favicon ? resolve(favicon) : getAssetPath('favicon.ico');
+}
+
+function getTemplate(template: string | undefined) {
+    return template ? resolve(template) : getAssetPath('index.html');
+}
+
+function getFilename(filename: string | undefined) {
+    return filename || 'index.html';
 }
 
 export default function () {
@@ -23,31 +35,24 @@ export default function () {
         projectConfig: { pages, title, favicon, filename, template }
     } = global;
 
-    // TODO: 多页面打包待测试
     if (!!pages) {
         for (const key in pages) {
             if (pages.hasOwnProperty(key)) {
                 const page = pages[key];
-                const entry = page.entry!;
-                const name = key;
-                const template = page.template || defaultHtmlConfig.template;
-                const filename = page.filename || defaultHtmlConfig.filename;
-                const title = page.title || defaultHtmlConfig.title;
-                const favicon = page.favicon || defaultHtmlConfig.favicon;
 
                 webpackConfig
-                    .entry(name)
-                    .add(resolve(entry))
+                    .entry(key)
+                    .add(resolve(page.entry!))
                     .end()
-                    .plugin(`${name}-html`)
+                    .plugin(`${key}-html`)
                     .use(HtmlWebpackPlugin, [
                         {
                             inject: 'body',
-                            template: resolve(template),
-                            chunks: ['chunk-vendors', 'chunk-common', name],
-                            filename,
-                            title,
-                            favicon: resolve(favicon)
+                            chunks: ['chunk-vendors', 'chunk-common', key],
+                            filename: getFilename(page.filename),
+                            title: getTitle(page.title),
+                            favicon: getFavicon(page.favicon),
+                            template: getTemplate(page.template)
                         }
                     ]);
             }
@@ -59,10 +64,10 @@ export default function () {
     webpackConfig.plugin('html').use(HtmlWebpackPlugin, [
         {
             inject: 'body',
-            template: resolve(template || defaultHtmlConfig.template),
-            favicon: resolve(favicon || defaultHtmlConfig.favicon),
-            title: title || defaultHtmlConfig.title,
-            filename: filename || defaultHtmlConfig.filename
+            filename: getFilename(filename),
+            title: getTitle(title),
+            favicon: getFavicon(favicon),
+            template: getTemplate(template)
         }
     ]);
 

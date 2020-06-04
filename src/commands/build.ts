@@ -1,8 +1,19 @@
 import { CommandModule } from 'yargs';
+import fs from 'fs-extra';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
-import { getWebpackConfig, getWebpackConfigOfMainProcess, build, printWebpackConfig } from '../utils/configUtil';
+import { getWebpackConfig, getWebpackConfigOfMainProcess, build } from '../utils/configUtil';
+import { resolve } from '../utils/pathUtil';
+import { isElectron, isNW } from '../utils/envUtil';
 
-const commandModule: CommandModule<{}, { inspect: boolean }> = {
+function finalizeBuild() {
+    const nwConfig = global.projectConfig.nw;
+    fs.writeFileSync(resolve(`dist/package.json`), JSON.stringify(nwConfig, null, 4));
+}
+
+function noop() {}
+
+const commandModule: CommandModule<Record<string, unknown>, { analyz: boolean }> = {
     command: 'build',
     describe: '项目打包',
     builder: {
@@ -10,37 +21,30 @@ const commandModule: CommandModule<{}, { inspect: boolean }> = {
             type: 'boolean',
             alias: 'a',
             description: '开启包体分析'
-        },
-        inspect: {
-            type: 'boolean',
-            alias: 'i',
-            description: '查看webpack配置',
-            default: false
         }
     },
     handler: async args => {
         process.env.NODE_ENV = 'production';
 
-        const isElectron = !!global.projectConfig.electron;
-        const webpackConfig = await getWebpackConfig({ isProd: true, needAnalyz: !!args.analyz });
+        const webpackConfig = await getWebpackConfig();
 
-        if (!isElectron) {
-            if (args.inspect) return printWebpackConfig(webpackConfig.toString());
-            return build(webpackConfig.toConfig(), false);
+        if (args.analyz) {
+            webpackConfig.plugin('analyzer-plugin').use(BundleAnalyzerPlugin, [
+                {
+                    analyzerMode: 'static',
+                    generateStatsFile: true,
+                    logLevel: 'error'
+                }
+            ]);
         }
 
-        const mainProcessConfig = getWebpackConfigOfMainProcess({
-            isProd: true,
-            needAnalyz: false
-        });
-
-        if (args.inspect) {
-            printWebpackConfig(webpackConfig.toString() + '\n');
-            printWebpackConfig(mainProcessConfig.toString());
-            return;
+        if (!isElectron()) {
+            return build(webpackConfig.toConfig(), isNW() ? finalizeBuild : noop);
         }
 
-        build(mainProcessConfig.toConfig(), true, () => build(webpackConfig.toConfig(), false));
+        const mainProcessConfig = getWebpackConfigOfMainProcess();
+
+        build(mainProcessConfig.toConfig(), () => build(webpackConfig.toConfig()));
     }
 };
 

@@ -4,16 +4,20 @@ import Config from 'webpack-chain';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import WebpackBar from 'webpackbar';
 import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin';
+import fs from 'fs-extra';
 
 import { resolve } from '../utils/pathUtil';
+import { NW_DEBUG_FOLDER } from '../constants';
+import { isElectron, isNW, isProduction } from '../utils/envUtil';
 
-export function applyBaseConfig(baseConfig: Config, options: ConfigOptions, isMainProcess = false) {
+export function applyBaseConfig(baseConfig: Config, isMainProcess = false) {
+    const existsPublicFolder = fs.existsSync(resolve('public'));
     const { projectConfig } = global;
     const needClean = isMainProcess || !projectConfig.electron;
-    const { isProd } = options;
     const mainEntry = projectConfig.electron?.mainEntry || './src/main/index.ts';
-    const isElectron = !!projectConfig.electron;
     const disableHash = projectConfig.filenameHashing === false;
+    const isProd = isProduction();
     const outputFilename = isMainProcess
         ? '[name].js'
         : `${isProd ? 'js/' : ''}[name]${disableHash || !isProd ? '' : '.[contenthash:8]'}.js`;
@@ -37,7 +41,8 @@ export function applyBaseConfig(baseConfig: Config, options: ConfigOptions, isMa
         })
         .output.filename(outputFilename)
         .chunkFilename(outputFilename)
-        .publicPath(projectConfig.publicPath === undefined ? '/' : projectConfig.publicPath)
+        .publicPath(projectConfig.publicPath === undefined ? (isElectron() ? '' : '/') : projectConfig.publicPath)
+        .when(isNW() && !isProd, config => config.path(resolve(NW_DEBUG_FOLDER)))
         .end()
         .resolve.extensions.merge(['.tsx', '.ts', '.js', '.json'])
         .end()
@@ -49,26 +54,43 @@ export function applyBaseConfig(baseConfig: Config, options: ConfigOptions, isMa
             }
         ])
         .end()
-        .plugin('caseSensitivePaths-plugin')
-        .use(CaseSensitivePathsPlugin)
-        .end()
         .plugin('progress-bar')
         .use(WebpackBar, [
             {
-                name: isElectron ? (isMainProcess ? '主进程构建' : '渲染进程构建') : 'Web构建',
+                name: isElectron()
+                    ? isMainProcess
+                        ? 'Build Main'
+                        : 'Build Renderer'
+                    : isNW()
+                    ? 'Build NW'
+                    : 'Build Web',
                 color: isMainProcess ? 'yellow' : 'green'
             }
         ])
         .end()
         .when(needClean, config => config.plugin('clean-webpack-plugin').use(CleanWebpackPlugin))
-        .when(!isProd, config =>
-            config
-                .plugin('hard-source-plugin')
-                .use(HardSourceWebpackPlugin, [{ info: { level: 'warn', mode: 'test' } }])
+        .when(
+            !isProd,
+            config =>
+                config
+                    .plugin('hard-source-plugin')
+                    .use(HardSourceWebpackPlugin, [{ info: { level: 'warn', mode: 'test' } }]),
+            config => config.plugin('caseSensitivePaths-plugin').use(CaseSensitivePathsPlugin)
+        )
+        .when(existsPublicFolder && isProd && !isMainProcess, config =>
+            config.plugin('copy-plugin').use(CopyPlugin, [
+                {
+                    patterns: [
+                        {
+                            from: resolve('public')
+                        }
+                    ]
+                }
+            ])
         );
 }
 
-export default function (options: ConfigOptions) {
+export default function () {
     const { webpackConfig } = global;
-    applyBaseConfig(webpackConfig, options);
+    applyBaseConfig(webpackConfig);
 }

@@ -1,11 +1,38 @@
+import path from 'path';
+
 import { resolve } from '../utils/pathUtil';
-import { getProjectAlias } from '../utils/configUtil';
+import { isProduction } from '../utils/envUtil';
 
 const projectTsConfig = require(resolve('tsconfig.json'));
 
-export default function (options: ConfigOptions) {
+type TsconfigFile = {
+    compilerOptions: {
+        baseUrl: string;
+        paths: {
+            [aliasName: string]: string[];
+        };
+    };
+};
+
+type WebpackAliases = {
+    [aliasName: string]: string;
+};
+
+const replaceGlobs = (path: string): string => path.replace(/(\/\*\*)*\/\*$/, '');
+
+export function getProjectAlias(tsconfigFile: TsconfigFile, dirname = '.'): WebpackAliases {
+    const { baseUrl, paths } = tsconfigFile.compilerOptions;
+    if (!paths) return {};
+    return Object.keys(paths).reduce((aliases: WebpackAliases, pathName) => {
+        const alias = replaceGlobs(pathName);
+        const p = replaceGlobs(paths[pathName][0]);
+        aliases[alias] = path.resolve(dirname, baseUrl, p);
+        return aliases;
+    }, {});
+}
+
+export default function () {
     const { webpackConfig } = global;
-    const { isProd } = options;
     const alias = getProjectAlias(projectTsConfig);
 
     for (const key in alias) {
@@ -14,5 +41,5 @@ export default function (options: ConfigOptions) {
         }
     }
 
-    webpackConfig.resolve.alias.when(!isProd, config => config.set('react-dom', '@hot-loader/react-dom'));
+    webpackConfig.resolve.alias.when(!isProduction(), config => config.set('react-dom', '@hot-loader/react-dom'));
 }
