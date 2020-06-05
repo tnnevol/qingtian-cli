@@ -57,9 +57,11 @@ const commandModule: CommandModule = {
         const devServerConfig = webpackConfig.toConfig().devServer;
         const server = new WebpackDevServer(compiler, devServerConfig);
         const info = console.info;
+        let isHotLoad = false;
         let port = devServerConfig?.port!;
 
-        compiler.hooks.done.tap('BuildStatsPlugin', async () => {
+        compiler.hooks.done.tap('BuildStatsPlugin', async stats => {
+            if (isHotLoad) return;
             console.info = () => {};
             portfinder.basePort = port;
             port = await portfinder.getPortPromise();
@@ -67,6 +69,7 @@ const commandModule: CommandModule = {
             server.listen(port, '0.0.0.0', err => {
                 console.info = info;
                 if (err) return console.log(err);
+                isHotLoad = true;
                 log.info(`Server listening => http://localhost:${port}/ 👀`);
 
                 if (isNW()) startUpNW(port);

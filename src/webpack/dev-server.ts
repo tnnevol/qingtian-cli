@@ -5,7 +5,7 @@ import { resolve } from '../utils/pathUtil';
 import { isProduction, isElectron } from '../utils/envUtil';
 
 function startUpElectron() {
-    spawn('node', [resolve('./node_modules/electron/cli.js'), resolve('./dist/main.js')], {
+    spawn('electron', [resolve('./dist/main.js')], {
         shell: true,
         env: process.env,
         stdio: 'inherit'
