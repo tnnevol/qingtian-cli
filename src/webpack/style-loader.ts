@@ -40,7 +40,7 @@ export default function () {
                     ? {
                           mode: 'local',
                           localIdentName: '[path][name]__[local]--[hash:base64:5]',
-                          context: resolve('./src')
+                          localIdentContext: resolve('./src')
                       }
                     : false,
                 sourceMap: !isProd
