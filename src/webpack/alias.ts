@@ -41,5 +41,7 @@ export default function () {
         }
     }
 
-    webpackConfig.resolve.alias.when(!isProduction(), config => config.set('react-dom', '@hot-loader/react-dom'));
+    webpackConfig.resolve.alias.when(!isProduction(), config =>
+        config.set('react-refresh/runtime', require.resolve('react-refresh/runtime'))
+    );
 }
