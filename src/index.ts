@@ -6,14 +6,14 @@ import log from './utils/logUtil';
 global.webpackConfig = new Config();
 global.projectConfig = getProjectConfig();
 
-function init() {
+function run() {
     const { electron, nw } = global.projectConfig;
 
     if (!!electron && !!nw)
         return log.error(
             'The electron and nw configurations cannot exist at the same time, please check the qt.config.js'
         );
-
+    console.time('yargs');
     yargs
         .scriptName('qt')
         .detectLocale(false)
@@ -26,4 +26,4 @@ function init() {
         .alias('h', 'help').argv;
 }
 
-init();
+run();
