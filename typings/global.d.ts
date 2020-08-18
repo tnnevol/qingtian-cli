@@ -13,7 +13,12 @@ declare global {
                     // 配置 electron 项目主进程入口文件路径
                     mainEntry?: string;
                 };
-                nw?: {};
+                nw?: {
+                    window?: any;
+                    build?: any;
+                    main?: string;
+                    'node-remote'?: string;
+                };
                 // webpack 配置拓展
                 chainWebpack?: (config: Config) => void;
                 // 多页面打包配置

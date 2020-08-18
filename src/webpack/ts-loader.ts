@@ -2,7 +2,6 @@ import path from 'path';
 import { ContextReplacementPlugin } from 'webpack';
 import Config from 'webpack-chain';
 import ReactRefreshPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-
 import { resolve } from '../utils/pathUtil';
 import { isProduction } from '../utils/envUtil';
 

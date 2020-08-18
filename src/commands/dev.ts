@@ -1,10 +1,9 @@
 import { CommandModule } from 'yargs';
 import WebpackDevServer from 'webpack-dev-server';
 import webpack from 'webpack';
-import fs from 'fs-extra';
+import fs from 'fs';
 import { spawn } from 'child_process';
 import portfinder from 'portfinder';
-
 import { getWebpackConfig } from '../utils/configUtil';
 import log from '../utils/logUtil';
 import { resolve, getAssetPath } from '../utils/pathUtil';
@@ -12,16 +11,15 @@ import { isNW } from '../utils/envUtil';
 import { NW_DEBUG_FOLDER, NW_DEBUG_HTML } from '../constants';
 
 function startUpNW(port: number) {
+    const nwConfig = global.projectConfig.nw!;
+    const NW_DEV_ICON = 'nw_icon.png';
+
     if (!fs.existsSync(resolve(NW_DEBUG_FOLDER))) {
         fs.mkdirSync(resolve(NW_DEBUG_FOLDER));
     }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const nwConfig = global.projectConfig.nw as any;
-    const NW_DEV_ICON = 'nw_icon.png';
-
     if (!nwConfig.window) nwConfig.window = {};
-    nwConfig['main'] = NW_DEBUG_HTML;
+
+    nwConfig.main = NW_DEBUG_HTML;
     nwConfig['node-remote'] = 'http://localhost/*';
     nwConfig.window.icon = NW_DEV_ICON;
     delete nwConfig.build;
@@ -48,8 +46,8 @@ function startUpNW(port: number) {
 
 const commandModule: CommandModule = {
     command: 'dev',
-    describe: '开发构建',
-    handler: async args => {
+    describe: 'Run project',
+    handler: async () => {
         process.env.NODE_ENV = 'development';
 
         const webpackConfig = await getWebpackConfig();
@@ -70,8 +68,7 @@ const commandModule: CommandModule = {
                 console.info = info;
                 if (err) return console.log(err);
                 isHotLoad = true;
-                log.info(`Server listening => http://localhost:${port}/ 👀`);
-
+                log.info(`Server listening => http://localhost:${port}`);
                 if (isNW()) startUpNW(port);
             });
         });

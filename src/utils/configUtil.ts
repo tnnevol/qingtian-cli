@@ -1,8 +1,7 @@
-import fs from 'fs-extra';
+import fs from 'fs';
 import path from 'path';
 import Config from 'webpack-chain';
 import webpack from 'webpack';
-
 import { resolve } from './pathUtil';
 import { applyBaseConfig } from '../webpack/base';
 import { applytsCheckerConfig } from '../webpack/ts-checker';
@@ -10,7 +9,7 @@ import { applyTsConfig } from '../webpack/ts-loader';
 import { isProduction } from './envUtil';
 
 export function getProjectConfig() {
-    const configPath = resolve(`${global.cliName}.config.js`);
+    const configPath = resolve('qt.config.js');
     if (!fs.existsSync(configPath)) return {};
     return require(configPath);
 }

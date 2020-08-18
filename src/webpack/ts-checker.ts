@@ -1,5 +1,5 @@
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import Config from 'webpack-chain';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 export function applytsCheckerConfig(checkerConfig: Config) {
     checkerConfig.plugin('ts-checker-plugin').use(ForkTsCheckerWebpackPlugin);

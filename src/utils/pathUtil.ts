@@ -1,5 +1,4 @@
 import path from 'path';
-
 import { isElectron } from './envUtil';
 
 export function resolve(p: string) {

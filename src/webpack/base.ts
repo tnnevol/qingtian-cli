@@ -5,8 +5,7 @@ import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import WebpackBar from 'webpackbar';
 import HardSourceWebpackPlugin from 'hard-source-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
-import fs from 'fs-extra';
-
+import fs from 'fs';
 import { resolve } from '../utils/pathUtil';
 import { NW_DEBUG_FOLDER } from '../constants';
 import { isElectron, isNW, isProduction } from '../utils/envUtil';

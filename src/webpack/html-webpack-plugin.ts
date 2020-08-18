@@ -1,6 +1,5 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import Config from 'webpack-chain';
-
 import { resolve, getAssetPath } from '../utils/pathUtil';
 import InlineChunkHtmlPlugin from '../plugins/InlineChunkHtmlPlugin';
 import { isProduction, isNotWebApp } from '../utils/envUtil';

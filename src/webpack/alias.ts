@@ -1,5 +1,4 @@
 import path from 'path';
-
 import { resolve } from '../utils/pathUtil';
 import { isProduction } from '../utils/envUtil';
 

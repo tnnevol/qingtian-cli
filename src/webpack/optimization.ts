@@ -1,6 +1,5 @@
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
-
 import { isProduction } from '../utils/envUtil';
 
 export default function () {

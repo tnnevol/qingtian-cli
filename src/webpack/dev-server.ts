@@ -1,5 +1,4 @@
 import { spawn } from 'child_process';
-
 import { getWebpackConfigOfMainProcess, build } from '../utils/configUtil';
 import { resolve } from '../utils/pathUtil';
 import { isProduction, isElectron } from '../utils/envUtil';

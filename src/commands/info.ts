@@ -1,7 +1,7 @@
 import { CommandModule } from 'yargs';
 import chalk from 'chalk';
 import path from 'path';
-import { existsSync } from 'fs-extra';
+import { existsSync } from 'fs';
 
 const packageJson = require('../../package.json');
 const packages = ['typescript', 'webpack'];
@@ -43,8 +43,7 @@ function getPkgInfo(pkgs: string[]) {
 
 const commandModule: CommandModule = {
     command: 'info',
-    describe: '查看基本信息',
-    aliases: 'i',
+    describe: 'View CLI information',
     handler: () => {
         const infoMap = getPkgInfo(packages);
 

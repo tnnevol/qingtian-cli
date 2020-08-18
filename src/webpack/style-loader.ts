@@ -1,5 +1,4 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-
 import { resolve } from '../utils/pathUtil';
 import { isProduction } from '../utils/envUtil';
 

@@ -1,8 +1,7 @@
 import { CommandModule } from 'yargs';
-import fs from 'fs-extra';
+import fs from 'fs';
 import ora from 'ora';
 import shell from 'shelljs';
-
 import log from '../utils/logUtil';
 import { resolve } from '../utils/pathUtil';
 
@@ -11,23 +10,22 @@ const downloadAddressMap: Record<string, string> = {
     web: 'github:xieqingtian/web-boilerplate',
     electron: 'github:xieqingtian/electron-boilerplate'
 };
-const spinner = ora('正在下载项目模版...\n');
+const spinner = ora('Downloading project boilerplate...\n');
 
 const commandModule: CommandModule<{}, { name: string; type: string; 'skip-install': boolean; 'skip-git': boolean }> = {
     command: 'new <name>',
-    aliases: 'n <name>',
-    describe: '项目创建',
+    describe: 'Initialize project',
     builder: yargs => {
         return yargs
             .positional('name', {
                 demandOption: true,
-                description: '项目名称',
+                description: 'Project name',
                 type: 'string'
             })
             .option('type', {
                 type: 'string',
                 alias: 't',
-                description: '项目类型',
+                description: 'Project type',
                 choices: Object.keys(downloadAddressMap),
                 default: 'web',
                 demandOption: false
@@ -35,13 +33,13 @@ const commandModule: CommandModule<{}, { name: string; type: string; 'skip-insta
             .option('skip-install', {
                 type: 'boolean',
                 alias: 'si',
-                description: '是否跳过安装依赖包',
+                description: 'Skip to install dependencies',
                 default: false
             })
             .option('skip-git', {
                 type: 'boolean',
                 alias: 'sg',
-                description: '是否跳过初始化git仓库',
+                description: 'Skip initializing the git repository',
                 default: false
             });
     },
@@ -50,19 +48,15 @@ const commandModule: CommandModule<{}, { name: string; type: string; 'skip-insta
         const projectName = args.name;
         const projectPath = resolve(projectName);
 
-        if (fs.existsSync(projectPath)) {
-            return log.error('该项目已存在');
-        }
+        if (fs.existsSync(projectPath)) return log.error('The project already exists');
 
         spinner.start();
         download(downloadAddressMap[projectType], projectPath, (err: Error) => {
             spinner.stop();
-            if (err) {
-                return log.error(`创建项目失败：${err.message} 😢`);
-            }
+            if (err) return log.error(`Failed to create project: ${err.message}`);
             if (!args['skip-git']) shell.exec(`cd ${projectName} && git init`);
             if (!args['skip-install']) shell.exec(`cd ${projectName} && yarn install`);
-            log.success(`创建项目成功：${projectPath} 😇`);
+            log.success(`Successfully created the project: ${projectPath}`);
         });
     }
 };

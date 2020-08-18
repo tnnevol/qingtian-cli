@@ -1,7 +1,6 @@
 import { CommandModule } from 'yargs';
-import fs from 'fs-extra';
+import fs from 'fs';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-
 import { getWebpackConfig, getWebpackConfigOfMainProcess, build } from '../utils/configUtil';
 import { resolve } from '../utils/pathUtil';
 import { isElectron, isNW } from '../utils/envUtil';
@@ -15,12 +14,12 @@ function noop() {}
 
 const commandModule: CommandModule<Record<string, unknown>, { analyz: boolean }> = {
     command: 'build',
-    describe: '项目打包',
+    describe: 'Build project',
     builder: {
         analyz: {
             type: 'boolean',
             alias: 'a',
-            description: '开启包体分析'
+            description: 'Webpack bundle analyz'
         }
     },
     handler: async args => {
@@ -38,9 +37,7 @@ const commandModule: CommandModule<Record<string, unknown>, { analyz: boolean }>
             ]);
         }
 
-        if (!isElectron()) {
-            return build(webpackConfig.toConfig(), isNW() ? finalizeBuild : noop);
-        }
+        if (!isElectron()) return build(webpackConfig.toConfig(), isNW() ? finalizeBuild : noop);
 
         const mainProcessConfig = getWebpackConfigOfMainProcess();
 
