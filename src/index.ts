@@ -13,7 +13,7 @@ function run() {
         return log.error(
             'The electron and nw configurations cannot exist at the same time, please check the qt.config.js'
         );
-    console.time('yargs');
+
     yargs
         .scriptName('qt')
         .detectLocale(false)
