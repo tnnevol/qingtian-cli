@@ -16,10 +16,9 @@ npm install qingtian-cli -g
 
 # Contains
 
--   web 以及 electron 模板项目生成 ✅
--   常用代码文件生成 ✅
+-   web , electron, nwjs 模板项目生成 ✅
 -   一键进入 webpack 开发模式和打包模式 ✅
--   内置 typescript 支持 ✅
+-   内置 typescript 4.0 支持 ✅
 -   内置 sass 支持 ✅
 -   内置 postcss 支持 ✅
 -   webpack 打包分析 ✅
@@ -36,20 +35,15 @@ npm install qingtian-cli -g
 # TodoList
 
 -   webpack 对 svg 模块单独处理 ❌
--   [pont](https://github.com/alibaba/pont) 集成 ❌
--   nwjs 项目支持（待定） ❌
 -   cli 运行速度优化 ❌
 -   js 打包支持 ❌
 -   less 支持 ❌
--   web 项目模板：路由及基础布局设计 ❌
--   electron 项目模板：typesafe ipc 设计 ❌
 
 # Commands
 
--   **qt new**： 创建 web 或 electron 项目
+-   **qt new**： 创建 web , electron, nwjs 项目
 -   **qt dev**： 启动项目开发
 -   **qt build**： 生产环境构建
--   **qt generate**： 常用代码生成
 -   **qt info**： 查看 cli 基本信息
 
 # Config
