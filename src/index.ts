@@ -21,6 +21,7 @@ function run() {
         .demandCommand(1)
         .recommendCommands()
         .version()
+        .wrap(null)
         .alias('v', 'version')
         .help('h')
         .alias('h', 'help').argv;
