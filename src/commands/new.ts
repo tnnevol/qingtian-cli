@@ -8,7 +8,8 @@ import { resolve } from '../utils/pathUtil';
 const download = require('download-git-repo');
 const downloadAddressMap: Record<string, string> = {
     web: 'github:xieqingtian/web-boilerplate',
-    electron: 'github:xieqingtian/electron-boilerplate'
+    electron: 'github:xieqingtian/electron-boilerplate',
+    nw: 'github:xieqingtian/nwjs-boilerplate'
 };
 const spinner = ora('Downloading project boilerplate...\n');
 
