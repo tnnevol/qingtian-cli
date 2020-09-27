@@ -3,7 +3,7 @@ import { resolve } from '../utils/pathUtil';
 import { isProduction } from '../utils/envUtil';
 
 const postcssPresetEnv = require('postcss-preset-env')({ browsers: 'last 2 versions', autoprefixer: { grid: true } });
-const postCssOptions = {
+const postcssOptions = {
     plugins: [postcssPresetEnv]
 };
 const cssRegex = /\.css$/;
@@ -46,7 +46,7 @@ export default function () {
             })
             .end()
             .when(isProd, config =>
-                config.use('postcss-loader').loader(require.resolve('postcss-loader')).options(postCssOptions)
+                config.use('postcss-loader').loader(require.resolve('postcss-loader')).options({ postcssOptions })
             )
             .use('sass-loader')
             .loader(require.resolve('sass-loader'))
@@ -75,7 +75,7 @@ export default function () {
         .loader(require.resolve('css-loader'))
         .end()
         .when(isProd, config =>
-            config.use('postcss-loader').loader(require.resolve('postcss-loader')).options(postCssOptions)
+            config.use('postcss-loader').loader(require.resolve('postcss-loader')).options({ postcssOptions })
         );
 
     webpackConfig.module
@@ -92,7 +92,7 @@ export default function () {
         .loader(require.resolve('css-loader'))
         .end()
         .when(isProd, config =>
-            config.use('postcss-loader').loader(require.resolve('postcss-loader')).options(postCssOptions)
+            config.use('postcss-loader').loader(require.resolve('postcss-loader')).options({ postcssOptions })
         )
         .use('less-loader')
         .loader(require.resolve('less-loader'))

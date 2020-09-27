@@ -1,3 +1,4 @@
+import path from 'path';
 import { resolve } from '../utils/pathUtil';
 import { isElectron, isProduction } from '../utils/envUtil';
 
@@ -15,11 +16,13 @@ export default function () {
             .module.rule('node')
             .test(/\.node$/)
             .use('node-loader')
-            .loader(require.resolve(isProduction() ? 'native-ext-loader' : 'node-loader'))
-            .when(isProduction(), loader =>
-                loader.options({
-                    basePath: ['..', '..', 'app.asar', 'dist']
-                })
-            )
+            .loader(require.resolve('../loaders/native-ext-loader.js'))
+            .options({
+                isProduction: isProduction(),
+                basePath: (resourcePath: string) => {
+                    const pkgName = path.dirname(resourcePath);
+                    return ['..', pkgName];
+                }
+            })
     );
 }
